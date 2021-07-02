@@ -1,0 +1,49 @@
+Pseudocode RechercheAvancée
+
+1. Création d'une public class RechercheAvancee extends Application {
+
+2. Création d'une Grille
+	BorderPane grille = new BorderPane();
+        grille.setTop(menuBar);
+        Scene scene = new Scene(root, 350, 200);
+
+
+1. Création du TextField "nom, prénom"
+
+	--> Textfield hérite de la classe TextInputControl
+	--> Méthodes : getText, setText, appendText
+	
+	Constructeur :
+	TextField nomPrenom = new TextField();
+	nomPrenom.getText();
+	
+
+2. Création du menu déroulant "Département"
+	--> Création du menuitems avec tous les instances des départements dans le fichier txt
+	
+	Menu departement = new Menu("Département");
+	ChoiceBox departementchoiceBox = new ChoiceBox(); 
+	      locationchoiceBox.getItems().addAll
+	         ("75", "93", "90", "88", "67", etc.);
+	
+3. Création du menu déroulant "Année"
+	--> Création du menuitems avec tous les instances de l'année dans le fichier txt
+	
+	Menu annee = new Menu("Année");
+	ChoiceBox anneechoiceBox = new ChoiceBox(); 
+	      anneechoiceBox.getItems().addAll
+	         ("2004", "2014", "2010", "2005", "2007", etc.);
+
+4. Création du menu déroulant "Promotion"
+	--> Création du menuitems avec tous les instances des promotions dans le fichier txt
+	
+	Menu promo = new Menu("Promotion"); 
+	ChoiceBox promochoiceBox = new ChoiceBox(); 
+	      promochoiceBox.getItems().addAll
+	         ("BOBI 5", "ATOD 22", "ATOD 21", "AI 79", etc.);
+
+5. Création du bouton "Valider"
+	--> Le bouton "Valider" va lancer la recherche en prenant en compte les paramètres choisis
+	
+	
+	
