@@ -1,2 +1,20 @@
 Pseudocode
+création d'un classe étudiant
+dans cette classe je vais créer les variables qui me permettront de créer un étudiants
 
+création de ma classe étudiant :
+je créait les variables suivante
+- String Nom
+- String Prenom
+- Int Année
+- String Nom de la promotion
+- Int Département 
+
+Mes variables sont déclarés, a présent je créait le constructeur de ma classe qui me permettra de l'appeler dans un main
+mon constructeur prendra les variables déclaré en paramètres
+ Constructeur etudiants ( Nom, prenom, Annee, Promotion, département) {
+ déclaration des variables ici
+ 
+ }
+ 
+ 
