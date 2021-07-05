@@ -1,2 +1,121 @@
 Pseudocode
 
+
+Création d'une classe Stagiaire
+
+variables concernant les stagiaires:
+
+	String Nom
+	String Prenom
+	Int Année
+	String promotion
+	Int Departement
+	
+	
+Constructeur Stagiaire (nom, prenom, année, promo, departement)	
+
+
+
+
+
+Création d'une classe Annuaire
+
+Ouvrir document liste
+Lecture document liste
+Transfert du contenu liste en différents constructeurs Stagiaire avec les attributs
+(nom, prenom, année, promo, departement)
+
+Stagiaire1
+Stagiaire2
+...
+
+Arbre Binaire (tri par ordre croissant)
+ 
+ 
+ 
+ 
+ Création d'une classe Compte
+ 
+     Label login
+     TextField loginTextField
+        
+     Label pswd
+     PasswordField pswdPasswordField 
+     
+ Si login et pswd Ok alors l'utilisateur à accès au reste du site
+
+
+
+
+
+
+ Création d'une classe formulaire
+     Label nom
+     TextField nomTextField
+        
+     Label prenom
+     PasswordField prenomField 
+  
+     Label departementLabel 
+	ChoiceBox departementchoiceBox
+	
+	Label promoLabel 
+	ChoiceBox promochoiceBox
+    
+  Label anneeLabel
+  DatePicker datePicker 
+  
+  Button buttonValider
+        
+		
+
+
+Fonctionnalité 1 méthode Consulter :
+
+Afficher classe Annuaire
+
+
+
+
+Fonctionnalité 2 méthode Ajouter :
+
+Appel classe formulaire
+Intégrer contenu formulaire dans stagiaire
+Ajouter Stagiare dans Annuaire
+
+
+
+
+
+Fonctionnalité 3 méthode Supprimer : 
+
+Appel classe Compte
+
+Selection Stagiaire 
+Enlever sélection de l'Annuaire
+
+
+
+
+Fonctionnalité 4 méthode Editer :
+
+Appel classe Compte
+
+Selection Stagiaire 
+Appel classe Formulaire
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+	
