@@ -1,4 +1,4 @@
-package application;
+package application.to_clean;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

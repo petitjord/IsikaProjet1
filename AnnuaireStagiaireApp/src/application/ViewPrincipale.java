@@ -1,9 +1,8 @@
 package application;
 
 
-import java.util.List;
-
-import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,9 +24,8 @@ public class ViewPrincipale {
 	private String fileName = "C:\\STAGIAIRES.DON";
 	private Annuaire annuaire;
 
-//	private VueAjoutStagiaire vueAjoutStagiaire = new VueAjoutStagiaire();
-//	private Stage primaryStage;
-//
+	private VueAjoutStagiaire vueAjoutStagiaire = new VueAjoutStagiaire();
+
 	public ViewPrincipale() {
 		initAnnuaire();
 	}
@@ -40,17 +38,32 @@ public class ViewPrincipale {
 	//public void afficher() {
 	public void start(Stage primaryStage) {
 		
-		// Cr�ation d'un menu
+		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
 		// menus
         Menu ouvrirMenu = new Menu("Ouvrir");
         Menu ajouterMenu = new Menu("Ajouter");
         Menu editerMenu = new Menu("Editer");
         Menu aideMenu = new Menu("Aide");
+        
         //MenuItem download
-        MenuItem downloadItem = new MenuItem("T�l�charger la documentation yes");
+        MenuItem downloadItem = new MenuItem("Télécharger la documentation yes");
         aideMenu.getItems().add(downloadItem);
-	    menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu); 
+        
+	    MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
+	    ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
+	    ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				vueAjoutStagiaire.afficher();
+			}
+		});
+	    
+	    
+	    // ajout de tous les menus
+	    menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
+	    
 	    BorderPane root = new BorderPane();
 	    root.setTop(menuBarApp);
         
@@ -84,9 +97,9 @@ public class ViewPrincipale {
 	    TableView<Stagiaire> tableauxList = new TableView();
 	    TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
 	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
-	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("D�partement");
+	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
 	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
-	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Ann�e");
+	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
 	    tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
 	    
 	    
@@ -103,13 +116,9 @@ public class ViewPrincipale {
 	    
 	   
 //		Button ajouterStagiaireBtn = new Button("Ajouter");
-//		ajouterStagiaireBtn.setOnAction(new EventHandler<ActionEvent>() {
-//			
-//			@Override
-//			public void handle(ActionEvent arg0) {
-//				vueAjoutStagiaire.afficher();
-//			}
-//		});
+	   
+	    
+	    
 	    VBox canvas = new VBox();
 	    canvas.setSpacing(5); 
 	    //canvas.setHgap(5);
@@ -118,7 +127,7 @@ public class ViewPrincipale {
 		Scene scene = new Scene(canvas, 700, 550);
 //		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 
-		primaryStage.setTitle("D�veloppeur d'avant l'annuaire des �tudiants Isika");
+		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}

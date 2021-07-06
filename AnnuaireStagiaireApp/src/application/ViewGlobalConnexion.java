@@ -20,22 +20,15 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class ViewGlobalConnexion extends Application {
-	
-	private Object primaryStage;
-	
-	
-	public static void main(String[] args) {
-		launch(args); // appelle de la méthode "launch" obligation
-	}
+public class ViewGlobalConnexion {
 	
     public void start(Stage primaryStage) {
        
         //Remplir la grille
-        Text titre = new Text("Bienvenue sur Développeurs d'avant !");
+        Text titre = new Text("Bienvenue sur DÃ©veloppeurs d'avant !");
         //titre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        Text titre2 = new Text("Connecte toi pour accéder à plus d'options");
-        //Utilisé dans le fichier css pour identifier le noeud
+        Text titre2 = new Text("Connecte toi pour accÃ©der Ã  plus d'options");
+        //Utilisï¿½ dans le fichier css pour identifier le noeud
         titre.setId("titreText");
        
         Label login = new Label("Login:");
@@ -44,7 +37,7 @@ public class ViewGlobalConnexion extends Application {
         Label pswd = new Label("Mot de passe :");
         PasswordField pswdPasswordField = new PasswordField();
         
-        //Ajout du bouton à la grille
+        //Ajout du bouton ï¿½ la grille
         Button btn = new Button("Connexion");
         HBox hbBtn = new HBox(10);
         hbBtn.setAlignment(Pos.BOTTOM_CENTER);
@@ -59,13 +52,13 @@ public class ViewGlobalConnexion extends Application {
         	
             public void handle(ActionEvent e) {
                 actionTexte.setFill(FIREBRICK);
-                actionTexte.setText("Vérification en cours");
+                actionTexte.setText("VÃ©rification en cours");
                 ViewPrincipale viewPrincipale = new ViewPrincipale();
                 viewPrincipale.start(primaryStage);
             }
          
         });
-        //créer une grille (GridPane Layout)
+        //crÃ©er une grille (GridPane Layout)
         GridPane grille = new GridPane();
         grille.setAlignment(Pos.CENTER);
         grille.setHgap(10);
@@ -85,7 +78,7 @@ public class ViewGlobalConnexion extends Application {
         Scene scene = new Scene(window, 400, 400);
         scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Développeurs d'avant, annuaire des étudiants ISIKA");
+        primaryStage.setTitle("DÃ©veloppeurs d'avant, annuaire des Ã©tudiants ISIKA");
         primaryStage.show();
     }
 }

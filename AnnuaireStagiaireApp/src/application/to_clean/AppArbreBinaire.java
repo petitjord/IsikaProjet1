@@ -1,6 +1,6 @@
-package application;
+package application.to_clean;
 
-
+import application.ArbreBinaire;
 
 public class AppArbreBinaire {
 
