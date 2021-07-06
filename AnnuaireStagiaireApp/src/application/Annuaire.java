@@ -1,5 +1,6 @@
 package application;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,12 +14,14 @@ public class Annuaire {
 	
 	// Transforme une chaine en un objet de type Stagiaire
 	private static final String STAGIAIRES_DON = "src/application/fichiers/STAGIARES.DON";
-	
-	public List<Stagiaire> lectureFichier() {
-		List<Stagiaire> stagiaires = new ArrayList<Stagiaire>();
+	private ArbreBinaire<Stagiaire> arbre; 
+		
+	public void lectureFichier(String fileName) {
+		arbre = new ArbreBinaire<Stagiaire>();
 		try {
-			FileInputStream file = new FileInputStream(Annuaire.class.getResource("fichiers/STAGIAIRES.DON").getFile());
-			Scanner scanner = new Scanner(file);
+			File file = new File(fileName);
+			FileInputStream fis = new FileInputStream(file);
+			Scanner scanner = new Scanner(fis);
 			while(scanner.hasNextLine()) {
 		
 				String nom = scanner.nextLine();
@@ -35,18 +38,15 @@ public class Annuaire {
 				
 				Stagiaire stagiaire = fabriqueStagiaire(ligneCompleteAvecSeparateur);
 				
-				// TODO remove later
-				stagiaire.afficher();
-				
-				// ajout du stagiaire à la liste
-				stagiaires.add(stagiaire);
+				arbre.ajouterNoeud(stagiaire);
 			}
 			scanner.close();
 		}
 		catch (IOException e){
 			e.printStackTrace();
 		}
-		return stagiaires;
+		
+		arbre.parcoursInfixe(arbre.getRacine());
 	}
 	
 	Stagiaire fabriqueStagiaire(String chaine){

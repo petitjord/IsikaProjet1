@@ -1,6 +1,6 @@
 package application;
 
-public class Stagiaire {
+public class Stagiaire implements Comparable<Stagiaire> {
 	public String nom;
 	public String prenom;
 	public int departement;
@@ -95,6 +95,11 @@ public class Stagiaire {
 		builder.append(annee);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	@Override
+	public int compareTo(Stagiaire o) {
+		return this.nom.compareTo(o.nom);
 	}
 
 }
