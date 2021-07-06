@@ -86,7 +86,7 @@ public class ViewPrincipale {
 	    HBox itemDroite = new HBox();
 	    itemDroite.setAlignment(Pos.BASELINE_RIGHT);
 	    itemDroite.getChildren().add(btnsBox);
-	    itemDroite.setPadding(new Insets(0, 0, 0, 100));
+	    itemDroite.setPadding(new Insets(0, 0, 0, 380));
 	    
 	    GridPane gridMenu = new GridPane();
 	    gridMenu.add(itemGauche, 0, 0);
@@ -101,11 +101,32 @@ public class ViewPrincipale {
 	    // Cr�ation du tableaux 
 	    
 	    TableView<Stagiaire> tableauxList = new TableView();
+	    tableauxList.getSelectionModel().getSelectedItem();
+	//    tableauxList.getSelectionModel().getSelectedItems();
 	    TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
+	    
+	    NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+	//    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
+	    
+	    
 	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
+	    
+	    PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+	//    PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("Prenom"));
+	    
 	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
+	    DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+	//    DepartementCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, Integer>("Département"));
+	    
+	    
 	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
+	    PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+	//    PromotionCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("Promotion"));
+	    
+	    
 	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
+	    AnneeCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+	//    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, Integer>("Année"));
 	    
 	    
 	    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
@@ -115,29 +136,56 @@ public class ViewPrincipale {
 	    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
 	    
 	    tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
-	    
+	    tableauxList.setMinWidth(650);
 	   
 	//    List<Stagiaire> liste = annuaire.getStagiaires();
 	    List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
 	    tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
 	    
-	    ScrollPane tableauxBox = new ScrollPane();
-	    tableauxBox.setContent(tableauxList);
-	    tableauxBox.setPadding(new Insets(0 ,0 , 0 ,0));
+	    Button selectAllBtn = new Button("Sélectionner tout");
+	    HBox selectAllBoxBtn = new HBox(5);
+	    selectAllBoxBtn.getChildren().add(selectAllBtn);
+	   
+	    GridPane topBtns = new GridPane();
+	    topBtns.add(selectAllBoxBtn, 0, 0);
+	    topBtns.setPadding(new Insets(10, 0, 0, 20));
 	    
+	    HBox tableauxBox = new HBox();
+	    tableauxBox.getChildren().add(tableauxList);
+	    tableauxBox.setPadding(new Insets(10 ,10 ,10 ,20));
+	    tableauxBox.setMinWidth(680);
+	    
+	    Button printBtn = new Button("Imprimer");
+	    HBox printBoxBtn = new HBox(5);
+	    printBoxBtn.getChildren().add(printBtn);
+	    Button deleteBtn = new Button("Supprimer");
+	    HBox deleteBoxBtn = new HBox(5);
+	    deleteBoxBtn.getChildren().add(deleteBtn);
+	    Button editBtn = new Button("Editer");
+	    HBox editBoxBtn = new HBox(5);
+	    editBoxBtn.getChildren().add(editBtn);
 	    Button saveBtn = new Button("Sauvegarder");
-	    HBox saveBoxBtn = new HBox(0);
+	    HBox saveBoxBtn = new HBox(5);
+	    saveBoxBtn.getChildren().add(saveBtn);
+	    saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
 	    
 	    
 	   
 //		Button ajouterStagiaireBtn = new Button("Ajouter");
 	   
-	    
+	    GridPane bottomBtns = new GridPane();
+	    bottomBtns.add(printBoxBtn, 0, 0);
+	    bottomBtns.add(deleteBoxBtn, 1, 0);
+	    bottomBtns.add(editBoxBtn, 2, 0);
+	    bottomBtns.add(saveBoxBtn, 5, 0);
+	    bottomBtns.setPadding(new Insets(10, 0, 0, 20));
+	    bottomBtns.setVgap(5);
+	    bottomBtns.setHgap(5);
 	    
 	    VBox canvas = new VBox();
 	    canvas.setSpacing(5); 
 	    //canvas.setHgap(5);
-	    canvas.getChildren().addAll(gridMenu, tableauxBox);
+	    canvas.getChildren().addAll(gridMenu, topBtns, tableauxBox,bottomBtns);
 	    
 		Scene scene = new Scene(canvas, 700, 550);
 //		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

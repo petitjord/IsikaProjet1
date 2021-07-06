@@ -58,6 +58,7 @@ public class ViewGlobalConnexion {
             }
          
         });
+        
         //créer une grille (GridPane Layout)
         GridPane grille = new GridPane();
         grille.setAlignment(Pos.CENTER);
