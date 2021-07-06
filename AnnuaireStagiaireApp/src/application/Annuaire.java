@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
+
+import application.ArbreBinaire.Noeud;
 
 
 public class Annuaire {
@@ -14,8 +18,9 @@ public class Annuaire {
 	
 	// Transforme une chaine en un objet de type Stagiaire
 	private static final String STAGIAIRES_DON = "src/application/fichiers/STAGIARES.DON";
-	private ArbreBinaire<Stagiaire> arbre; 
-		
+	private ArbreBinaire<Stagiaire> arbre;
+	private List<Stagiaire> listeStagiaires;
+
 	public void lectureFichier(String fileName) {
 		arbre = new ArbreBinaire<Stagiaire>();
 		try {
@@ -46,7 +51,8 @@ public class Annuaire {
 			e.printStackTrace();
 		}
 		
-		arbre.parcoursInfixe(arbre.getRacine());
+		listeStagiaires = getListStagiaireDansArbreBinaire();
+//		arbre.parcoursInfixe(arbre.getRacine());
 	}
 	
 	Stagiaire fabriqueStagiaire(String chaine){
@@ -62,5 +68,47 @@ public class Annuaire {
         }   
         return stag;
     }
+	
+
+	public Set<String> getAllPromos() {
+		return listeStagiaires.stream()
+			.map(stagiaire -> stagiaire.getPromo())
+			.sorted()
+			.collect(Collectors.toSet());
+	}
+	
+	public Set<Integer> getAllYears() {
+		return listeStagiaires.stream()
+			.map(stagiaire -> stagiaire.getAnnee())
+			.sorted()
+			.collect(Collectors.toSet());
+	}
+	
+	/**
+	 * Recupere la liste dans l'arbre binaire
+	 * 
+	 * @return stagiaires
+	 */
+	public List<Stagiaire> getListStagiaireDansArbreBinaire() {
+		List<Stagiaire> stagiaires = new ArrayList<>();
+		getElementsArbreBinaire(stagiaires, arbre.getRacine());
+		return stagiaires;
+	}
+	/**
+	 * return le nombre d'elements dans l'arbre binaire
+	 * 
+	 * @param elements
+	 * @param noeud
+	 */
+	private void getElementsArbreBinaire(List<Stagiaire> elements, Noeud<Stagiaire> noeud) {
+		if(noeud.gauche != null) {
+			getElementsArbreBinaire(elements, noeud.gauche);
+		}
+		if(noeud.droit != null ) {
+			getElementsArbreBinaire(elements, noeud.droit);
+		}
+		elements.add(noeud.valeur);
+	}
+
 
 }

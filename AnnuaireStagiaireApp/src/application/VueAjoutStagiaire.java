@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -18,11 +19,12 @@ import javafx.stage.Stage;
 public class VueAjoutStagiaire {
 
 
-
 	GridPane gridPane = new GridPane();
+	private ViewPrincipale viewPrincipale;
 
 
-	public VueAjoutStagiaire() {
+	public VueAjoutStagiaire(ViewPrincipale viewPrincipale) {
+		this.viewPrincipale = viewPrincipale;
 		init();
 	}
 
@@ -44,22 +46,12 @@ public class VueAjoutStagiaire {
 		
 	//	ComboBox proms = new ComboBox(FXCollections.observableArrayList();
 		
-		ChoiceBox promochoiceBox = new ChoiceBox();
-		promochoiceBox.getItems().addAll
-		("AI", "AROBAS", "ATOD", "BOBI");
+		ChoiceBox<String> promochoiceBox = new ChoiceBox<String>();
+		promochoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllPromos());
 		
-		
-
-
-
 		Label anneeLabel = new Label("Année");
-		//	ComboBox<Annee> annee = new ComboBox<Annee>();
-		//	annee.getItems().addAll(
-
-
-		ChoiceBox anneechoiceBox = new ChoiceBox();
-		anneechoiceBox.getItems().addAll
-		("2004", "2005", "2006", "2007","2008","2009","2010","2011");
+		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox<Integer>();
+		anneechoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllYears());
 
 
 		Button buttonConfirm = new Button("Valider");

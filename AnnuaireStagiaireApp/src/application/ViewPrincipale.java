@@ -1,6 +1,9 @@
 package application;
 
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,6 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -21,10 +25,10 @@ import javafx.stage.Stage;
 
 public class ViewPrincipale {
 	
-	private String fileName = "C:\\STAGIAIRES.DON";
+	private String fileName = "C:/GitHubRepo/IsikaProjet1/STAGIAIRES.DON";
 	private Annuaire annuaire;
 
-	private VueAjoutStagiaire vueAjoutStagiaire = new VueAjoutStagiaire();
+	private VueAjoutStagiaire vueAjoutStagiaire;
 
 	public ViewPrincipale() {
 		initAnnuaire();
@@ -37,6 +41,8 @@ public class ViewPrincipale {
 	
 	//public void afficher() {
 	public void start(Stage primaryStage) {
+		
+		vueAjoutStagiaire = new VueAjoutStagiaire(this);
 		
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
@@ -100,11 +106,20 @@ public class ViewPrincipale {
 	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
 	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
 	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
+	    
+	    
+	    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
+	    PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("prenom"));
+	    DepartementCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("departement"));
+	    PromotionCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("promo"));
+	    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
+	    
 	    tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
 	    
-	    
-	    //List<Stagiaire> liste = annuaire.getStagiaires();
-	    //tableauxList.setItems(FXCollections.observableList(liste));
+	   
+	//    List<Stagiaire> liste = annuaire.getStagiaires();
+	    List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
+	    tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
 	    
 	    ScrollPane tableauxBox = new ScrollPane();
 	    tableauxBox.setContent(tableauxList);
@@ -130,5 +145,9 @@ public class ViewPrincipale {
 		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	public Annuaire getAnnuaire() {
+		return annuaire;
 	}
 }

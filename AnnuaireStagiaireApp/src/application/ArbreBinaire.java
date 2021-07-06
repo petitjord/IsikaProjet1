@@ -1,36 +1,38 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Arbre binaire de Recherche
- * On utilise la générecité en passant le type des éléments en paramètres.
+ * On utilise la gï¿½nï¿½recitï¿½ en passant le type des ï¿½lï¿½ments en paramï¿½tres.
  * Pour rechercher il faut pouvoir trier et donc pouvoir comparer
- * Donc le type E doit être comparable.
+ * Donc le type E doit ï¿½tre comparable.
  * @author leann
  *
  * @param <E>
  */
 
 public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
-	
+
 	/**
-	 * Un noeud est composé d'une valeur, d'un fils gauche et droit => c'est une classe.
+	 * Un noeud est composï¿½ d'une valeur, d'un fils gauche et droit => c'est une classe.
 	 * Cette classe ne sert que dans l'arbre bianire et nulle part ailleurs,
-	 * donc on en fait une classe interne privée
-	 * Cette classe doit avoir un type générique. 
+	 * donc on en fait une classe interne privï¿½e
+	 * Cette classe doit avoir un type gï¿½nï¿½rique. 
 	 * @author leann
 	 *
 	 */
-	
-	private static class Noeud <T>{
-		// T désigne un type : Integer, String, FigureGeometrique, ...
-		private T valeur;
-		// Un arbre est récursif
+
+	public static class Noeud <T>{
+		// T dï¿½signe un type : Integer, String, FigureGeometrique, ...
+		public T valeur;
+		// Un arbre est rï¿½cursif
 		// Le fils gauche
-		private Noeud <T> gauche;
+		public Noeud <T> gauche;
 		// Le fils droit
-		private Noeud <T> droit;
-		
+		public Noeud <T> droit;
+
 		// Constructeur
 		public Noeud(T t) {
 			this.valeur = t;
@@ -38,7 +40,7 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 			this.droit = null;
 		}
 		/**
-		 * On redéfini la méthode toString pour pouvoir convertir un noeud en string
+		 * On redï¿½fini la mï¿½thode toString pour pouvoir convertir un noeud en string
 		 */
 		@Override
 		public String toString() {
@@ -50,8 +52,8 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 	 */
 	private Noeud<E> racine = null;
 	/**
-	 * Attention : on accède tjr a l'arbre par la racine
-	 * Donc celle ci ne doit pas être modifiable => pas de setter
+	 * Attention : on accï¿½de tjr a l'arbre par la racine
+	 * Donc celle ci ne doit pas ï¿½tre modifiable => pas de setter
 	 * @return : la racine de l'arbre
 	 */
 	public Noeud<E> getRacine() {
@@ -59,7 +61,7 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 	}
 	/**
 	 * Algo iteratif
-	 * @param element : l'element à ajouter (pas de doublon)
+	 * @param element : l'element ï¿½ ajouter (pas de doublon)
 	 */
 	public void ajouterNoeud(E element) {
 		// arbre vide
@@ -67,7 +69,7 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 		Noeud<E> courant = racine;
 		if (racine == null) racine = new Noeud<E>(element);
 		else {
-			// On doit parcourir l'arbre de manière itérative
+			// On doit parcourir l'arbre de maniï¿½re itï¿½rative
 			// On prend un flag de type boolean
 			boolean ok = false;
 			while(!ok) {
@@ -76,39 +78,39 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 				if(test < 0) {
 					if(courant.gauche == null) {
 						// On a trouve la place du nouveau noeud
-						// On crée le nouveau noeud avec comme valeur élément
+						// On crï¿½e le nouveau noeud avec comme valeur ï¿½lï¿½ment
 						// On fait pointer le fils gauche du noeud courant sur
 						// le nouveau noeud
 						courant.gauche = new Noeud<E> (element);
-						// C'est terminé
+						// C'est terminï¿½
 						ok = true;
 					}
 					// le fils gauche n'est pas null
 					else {
-						// il faut se déplacer dans le sous arbre gauche
+						// il faut se dï¿½placer dans le sous arbre gauche
 						courant = courant.gauche;
 					}
-				} // fin élément < valeur du noeud courant
-				
+				} // fin ï¿½lï¿½ment < valeur du noeud courant
+
 				// element est > la valeur de l'element courant
 				else if(test > 0) {
 					if(courant.droit == null) {
 						// On a trouve la place du nouveau noeud
-						// On crée le nouveau noeud avec comme valeur élément
+						// On crï¿½e le nouveau noeud avec comme valeur ï¿½lï¿½ment
 						// On fait pointer le fils gauche du noeud courant sur
 						// le nouveau noeud
 						courant.droit = new Noeud<E> (element);
-						// C'est terminé
+						// C'est terminï¿½
 						ok = true;
 					}
 					// le fils gauche n'est pas null
 					else {
-						// il faut se déplacer dans le sous arbre gauche
+						// il faut se dï¿½placer dans le sous arbre gauche
 						courant = courant.droit;
 					}
-				} // fin élément > valeur du noeud courant
-				
-				// element à ajouter existe déja
+				} // fin ï¿½lï¿½ment > valeur du noeud courant
+
+				// element ï¿½ ajouter existe dï¿½ja
 				// on ne veut pas de doublon
 				else {
 					ok = true;
@@ -116,7 +118,7 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 			} // fin du while, fin du parcourt
 		} // fin arbre non vide
 	} // fin ajouterNoeud
-	
+
 	public void parcoursInfixe(Noeud<E> n) {
 		if (n != null) {
 			// parcours infixe du sous arbre de gauche
@@ -129,22 +131,22 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 	/**
 	 * Recherche recursive sur un arbre binaire
 	 * @param noeud : la racine de l'arbre ou du sous arbre 
-	 * @param element : element à rechercher
-	 * @return : le oeud si trouvé
+	 * @param element : element ï¿½ rechercher
+	 * @return : le oeud si trouvï¿½
 	 */
 	public Noeud<E> rechercherRecursif(Noeud<E> noeud, E element) {
 		if (noeud == null) return null;
-		// On regarde si on a trouvé l'él.
+		// On regarde si on a trouvï¿½ l'ï¿½l.
 		if (element.compareTo(noeud.valeur) == 0) return noeud; 
 		// quand une seule instruction pas besoin d'accolade
 		if (element.compareTo(noeud.valeur) > 0) return rechercherRecursif(noeud.droit, element);
 		else return rechercherRecursif(noeud.gauche, element);
 	}
 	/**
-	 * recherche d'un élément
+	 * recherche d'un ï¿½lï¿½ment
 	 @param noeud : la racine de l'arbre ou du sous arbre 
-	 * @param element : element à rechercher
-	 * @return : le oeud si trouvé
+	 * @param element : element ï¿½ rechercher
+	 * @return : le oeud si trouvï¿½
 	 */
 	public E rechercher(Noeud<E> noeud, E element) {
 		Noeud<E> n = rechercherRecursif(noeud, element);
@@ -152,18 +154,18 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 		return null;
 	}
 	/**
-	 * Suppression d'un noeud de manière recursive
+	 * Suppression d'un noeud de maniï¿½re recursive
 	 * @param noeud : la racine
-	 * @param element : l'élément à supprimer
+	 * @param element : l'ï¿½lï¿½ment ï¿½ supprimer
 	 * @return : le noeud supprimer
 	 */
 	public Noeud<E> supprimer(Noeud<E> courant, E element) {
 		Noeud<E> result = courant;
-		// On compare l'élément a supprimer avec la valeur du noeud courant
+		// On compare l'ï¿½lï¿½ment a supprimer avec la valeur du noeud courant
 		int test = element.compareTo(courant.valeur);
-		// On a trouvé l'élement à supprimer => c'est le noeud courant
+		// On a trouvï¿½ l'ï¿½lement ï¿½ supprimer => c'est le noeud courant
 		if (test == 0) {
-			// On teste si courant à un fils gauche
+			// On teste si courant ï¿½ un fils gauche
 			if (courant.gauche == null) {
 				result = courant.droit;
 			}
@@ -171,15 +173,15 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 				result = courant.gauche;
 			}
 			else {
-				// Le noeud a supp possède 2 sous-arbres
+				// Le noeud a supp possï¿½de 2 sous-arbres
 				// On remplace le noeud a supprimer par le plus petit
-				// du sous-arbre droit du noeud à supprimer
+				// du sous-arbre droit du noeud ï¿½ supprimer
 				courant.valeur = plusPetiteValeurDuSousArbre(courant.droit);
 				// On supprime le noeud du sous arbre droit qui contenait cette
 				// plus petite valeur
 				courant.droit = supprimer(courant.droit, courant.valeur);
 			}
-		} // fin noeud à supp trouvé
+		} // fin noeud ï¿½ supp trouvï¿½
 		else if(test < 0) {
 			// on parcours le sous-arbre gauche
 			courant.gauche = supprimer(courant.gauche, element);
@@ -189,16 +191,16 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 			courant.droit = supprimer(courant.droit, element);
 		}
 		return result;
-	} // fin de la méthode supprimer
+	} // fin de la mÃ©thode supprimer
 	/**
-	 * Renvoi le + petit element du sous arbre passé en parametre
-	 * @param courant : racine du sous arbre dont on veut récuperer 
+	 * Renvoi le + petit element du sous arbre passï¿½ en parametre
+	 * @param courant : racine du sous arbre dont on veut rï¿½cuperer 
 	 * le + petit element
-	 * @return : la + petite valeur du sous arbre passé en parametre
+	 * @return : la + petite valeur du sous arbre passï¿½ en parametre
 	 */
 	private E plusPetiteValeurDuSousArbre(Noeud<E> courant) {
 		if(courant == null) throw new NullPointerException();
-		// On a trouvé la plus petite valeur
+		// On a trouvï¿½ la plus petite valeur
 		if(courant.gauche == null) return courant.valeur;
 		return plusPetiteValeurDuSousArbre(courant.gauche);
 	}
@@ -208,10 +210,12 @@ public class ArbreBinaire <E/* le type du parametre*/ extends Comparable<E> >{
 	 * @param element
 	 */
 	public void supprimer(E element) {
-		// L'élément à supprimer ne peut être null
+		// L'ï¿½lï¿½ment ï¿½ supprimer ne peut Ãªtre null
 		if (element == null) throw new NullPointerException();
-		// On met la racine en parametre = début de l'arbre
+		// On met la racine en parametre = dï¿½but de l'arbre
 		racine = supprimer(racine, element);
 	}
+
+
 } // fin de la classe ArbreBinaire
 

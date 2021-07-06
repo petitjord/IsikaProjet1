@@ -39,8 +39,8 @@ public class AnnuaireStagiairesApp extends Application {
 			
 			
 			// Popur tester les autres vues
-			VueAjoutStagiaire vueAjout = new VueAjoutStagiaire();
-			vueAjout.afficher();
+//			VueAjoutStagiaire vueAjout = new VueAjoutStagiaire();
+//			vueAjout.afficher();
 			
 			Scene scene = new Scene(root,400,400);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

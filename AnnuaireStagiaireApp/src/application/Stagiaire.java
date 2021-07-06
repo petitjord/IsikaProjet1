@@ -74,10 +74,10 @@ public class Stagiaire implements Comparable<Stagiaire> {
 
 	public void afficher(){
 		System.out.println("Nom : " + nom);
-		System.out.println("Prénom : " + prenom);
-		System.out.println("Département : " + departement);
+		System.out.println("Prï¿½nom : " + prenom);
+		System.out.println("Dï¿½partement : " + departement);
 		System.out.println("Promotion : " + promo);
-		System.out.println("Année: " + annee);
+		System.out.println("Annï¿½e: " + annee);
 	}
 
 	@Override
