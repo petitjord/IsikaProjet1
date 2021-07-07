@@ -30,6 +30,7 @@ public class Annuaire {
 	public void lectureFichier(String fileName) {
 		arbre = new ArbreBinaire<Stagiaire>();
 		try {
+		//	int compteur = 0;
 			File file = new File(fileName);
 			FileInputStream fis = new FileInputStream(file);
 			Scanner scanner = new Scanner(fis);
@@ -46,10 +47,11 @@ public class Annuaire {
 				
 				// On reconstitue une ligne complète avec les infos 
 				String ligneCompleteAvecSeparateur = nom + "*" + prenom + "*" + departement+ "*"+promo+ "*"+annee;
-				
 				Stagiaire stagiaire = fabriqueStagiaire(ligneCompleteAvecSeparateur);
 				
-				arbre.ajouterNoeud(stagiaire);
+				arbre.ajouterNoeud(stagiaire/*, compteur*/);
+
+			//	compteur++;
 			}
 			scanner.close();
 		}
