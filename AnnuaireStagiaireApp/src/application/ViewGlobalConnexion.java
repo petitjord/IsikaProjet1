@@ -1,6 +1,8 @@
 package application;
 import static javafx.scene.paint.Color.FIREBRICK;
 
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,17 +32,26 @@ public class ViewGlobalConnexion {
         Text titre2 = new Text("Connecte toi pour accéder à plus d'options");
         //Utilis� dans le fichier css pour identifier le noeud
         titre.setId("titreText");
+        VBox titreBox = new VBox(10);
+        titreBox.getChildren().addAll(titre, titre2);
+        titreBox.setAlignment(Pos.CENTER);
        
         Label login = new Label("Login:");
         TextField loginTextField = new TextField();
+        HBox loginBox = new HBox(55);
+        loginBox.getChildren().addAll(login, loginTextField);
+        loginBox.setAlignment(Pos.CENTER);
         
         Label pswd = new Label("Mot de passe :");
-        PasswordField pswdPasswordField = new PasswordField();
+        PasswordField passwordField = new PasswordField();
+        HBox pswdBox = new HBox(10);
+        pswdBox.getChildren().addAll(pswd, passwordField);
+        pswdBox.setAlignment(Pos.CENTER);
         
-        //Ajout du bouton � la grille
+        //Ajout du bouton à la grille
         Button btn = new Button("Connexion");
         HBox hbBtn = new HBox(10);
-        hbBtn.setAlignment(Pos.BOTTOM_CENTER);
+        hbBtn.setAlignment(Pos.CENTER);
         hbBtn.getChildren().add(btn);
         
         //Ajout d'une zone de texte
@@ -60,24 +71,23 @@ public class ViewGlobalConnexion {
         });
         
         //créer une grille (GridPane Layout)
+          
         GridPane grille = new GridPane();
         grille.setAlignment(Pos.CENTER);
         grille.setHgap(10);
         grille.setVgap(10);
         grille.setPadding(new Insets(20, 20, 20, 20));
-        grille.add(titre, 0, 0);
-        grille.add(titre2, 0, 1);
-        grille.add(login, 0, 2);
-        grille.add(loginTextField, 1, 2);
-        grille.add(pswd, 0, 3);
-        grille.add(pswdPasswordField, 1, 3);
-        grille.add(hbBtn, 1, 4);
-        grille.add(actionTexte, 1, 6);
+        grille.add(titreBox, 0, 0);
+        grille.add(loginBox, 0, 2);
+        grille.add(pswdBox, 0, 3);
+        grille.add(hbBtn, 0, 4);
+        grille.add(actionTexte, 0, 6);
         //grille.setGridLinesVisible(true);
-        HBox window = new HBox(10);
-        window.getChildren().addAll(grille);
-        Scene scene = new Scene(window, 400, 400);
-        scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+        //HBox window = new HBox(10);
+        //window.getChildren().addAll(formulaireMain);
+        Scene scene = new Scene(grille, 400, 400);
+        scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
+        
         primaryStage.setScene(scene);
         primaryStage.setTitle("Développeurs d'avant, annuaire des étudiants ISIKA");
         primaryStage.show();

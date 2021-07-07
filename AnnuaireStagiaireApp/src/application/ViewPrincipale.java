@@ -10,12 +10,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -25,8 +28,9 @@ import javafx.stage.Stage;
 
 public class ViewPrincipale {
 	
-	private String fileName = "C:/GitHubRepo/IsikaProjet1/STAGIAIRES.DON";
+	private String fileName = "C:/STAGIAIRES.DON";
 	private Annuaire annuaire;
+	
 
 	private VueAjoutStagiaire vueAjoutStagiaire;
 
@@ -96,9 +100,67 @@ public class ViewPrincipale {
 	    //gridMenu.setGridLinesVisible(true);
 	    gridMenu.setAlignment(Pos.BASELINE_LEFT);
 	    
-	    //gridMenu.setPadding(new Insets(0, 0, 0, 0)); 
+	    //gridMenu.setPadding(new Insets(0, 0, 0, 0));
+	    Label nameLabel = new Label("Nom-Prénom");
+		TextField nameText = new TextField();
+		// ajout de la HBox
+		HBox searchBar = new HBox(10);
+		searchBar.getChildren().addAll(nameLabel, nameText);
+		// ajout de la VBox
+		VBox rootSearch = new VBox();
+		rootSearch.getChildren().addAll(searchBar);
+		//Label departementLabel = new Label("Départements");
+		//TextField departementText = new TextField();
+		
+		// box des départements
+		ChoiceBox departementchoiceBox = new ChoiceBox();
+		departementchoiceBox.getItems().addAll(76, 78, 91, 92, 93, 94, 95);
+		Button departementBtn = new Button("Départements", departementchoiceBox);
+		HBox departementBox = new HBox(10);
+		departementBox.getChildren().add(departementBtn);
+		// box des années
+		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox();
+		//anneechoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllYears());
+		Button yearBtn = new Button("Année", anneechoiceBox);
+		HBox yearBox = new HBox(10);
+		//yearBox.setAlignment(Pos.BASELINE_LEFT);
+		yearBox.getChildren().add(yearBtn);
+		// box des promotions
+		ChoiceBox<String> promotionschoiceBox = new ChoiceBox();
+		//promotionschoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllPromos());
+		Button promotionBtn = new Button("Promotions", promotionschoiceBox);
+		HBox promotionBox = new HBox(10);
+		//promotionBox.setAlignment(Pos.BASELINE_RIGHT);
+		promotionBox.getChildren().add(promotionBtn);
+		
+		// Ajout des boutons à la grille
+		Button validateBtn = new Button("Valider");
+		HBox validateBox = new HBox(10);
+		//validateBox.setAlignment(Pos.BOTTOM_RIGHT);
+		validateBox.getChildren().add(validateBtn);
+		
+		// Hbox des comboBox
+		HBox itemsChoiceBox = new HBox(10);
+		itemsChoiceBox.getChildren().addAll(departementBox, yearBox, promotionBox, validateBox);
+		
+		GridPane gridPaneSearch = new GridPane();
+		gridPaneSearch.setHgap(10);
+		gridPaneSearch.setVgap(10);
+		gridPaneSearch.setPadding(new Insets(20, 20, 20, 20));
+		gridPaneSearch.add(searchBar, 0, 0);//searchBar
+		gridPaneSearch.add(itemsChoiceBox, 0, 1);//bouton valider
+		//gridPane.add(hbBtn2, 0, 7);//bouton Départements
+		
+//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
+//		
+//		gridPaneSearch.add(yearBox, 2, 1);//bouton Année
+//		
+		
+		
+		//gridPaneSearch.add(departementLabel, 0, 1);
+		//gridPaneSearch.add(departementText, 0, 1);
 	    
-	    // Cr�ation du tableaux 
+	    // Création du tableaux 
 	    
 	    TableView<Stagiaire> tableauxList = new TableView();
 	    tableauxList.getSelectionModel().getSelectedItem();
@@ -185,10 +247,10 @@ public class ViewPrincipale {
 	    VBox canvas = new VBox();
 	    canvas.setSpacing(5); 
 	    //canvas.setHgap(5);
-	    canvas.getChildren().addAll(gridMenu, topBtns, tableauxBox,bottomBtns);
+	    canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
 	    
 		Scene scene = new Scene(canvas, 700, 550);
-//		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 
 		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
