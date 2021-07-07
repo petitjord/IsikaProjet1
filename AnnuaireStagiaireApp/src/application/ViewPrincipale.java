@@ -1,6 +1,8 @@
 package application;
 
 
+import static javafx.scene.paint.Color.FIREBRICK;
+
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -29,6 +31,9 @@ public class ViewPrincipale {
 	private Annuaire annuaire;
 
 	private VueAjoutStagiaire vueAjoutStagiaire;
+	private EditerStagiaire editerStagiaire;
+	private Connexion connexionStagiaire;
+	
 
 	public ViewPrincipale() {
 		initAnnuaire();
@@ -43,6 +48,8 @@ public class ViewPrincipale {
 	public void start(Stage primaryStage) {
 		
 		vueAjoutStagiaire = new VueAjoutStagiaire(this);
+		editerStagiaire = new EditerStagiaire(this);
+		connexionStagiaire = new Connexion(this);
 		
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
@@ -66,6 +73,16 @@ public class ViewPrincipale {
 			}
 		});
 	    
+	    MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
+	    editerMenu.getItems().add(editerStagiaireMenuItem);
+	    editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+	    	
+	    	@Override
+	    	public void handle(ActionEvent arg0) {
+	    		editerStagiaire.afficher();
+	    	}
+	    });
+	    
 	    
 	    // ajout de tous les menus
 	    menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
@@ -78,6 +95,22 @@ public class ViewPrincipale {
         HBox btnsBox = new HBox(10);
         buttonConnexion.setAlignment(Pos.BASELINE_LEFT);
 	    btnsBox.getChildren().add(buttonConnexion);
+	    
+	    buttonConnexion.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				
+				connexionStagiaire.afficher();
+			}
+	    	
+	    	
+	    });
+	    
+	    
+	    
 	    
 	    // colonne de gauche et de droite pour le menu globale
 	    HBox itemGauche = new HBox();
@@ -101,33 +134,22 @@ public class ViewPrincipale {
 	    // Cr�ation du tableaux 
 	    
 	    TableView<Stagiaire> tableauxList = new TableView();
-	    tableauxList.getSelectionModel().getSelectedItem();
-	//    tableauxList.getSelectionModel().getSelectedItems();
+	    Stagiaire stagi = tableauxList.getSelectionModel().getSelectedItem();
+//	    tableauxList.getSelectionModel().getSelectedItem();
+//	    tableauxList.getSelectionModel().getSelectedItems();
 	    TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
+	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
+	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
+	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
+	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
+	    
 	    
 	    NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-	//    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
-	    
-	    
-	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
-	    
-	    PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-	//    PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("Prenom"));
-	    
-	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
-	    DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-	//    DepartementCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, Integer>("Département"));
-	    
-	    
-	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
-	    PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-	//    PromotionCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("Promotion"));
-	    
-	    
-	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
-	    AnneeCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-	//    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, Integer>("Année"));
-	    
+		PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		AnneeCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		
 	    
 	    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
 	    PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("prenom"));
@@ -168,6 +190,21 @@ public class ViewPrincipale {
 	    HBox saveBoxBtn = new HBox(5);
 	    saveBoxBtn.getChildren().add(saveBtn);
 	    saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
+	    
+	    
+	    editBtn.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e) {
+				// TODO Auto-generated method stub
+				editerStagiaire.afficher();
+		/*		EditerStagiaire nom = new EditerStagiaire(null);
+				
+				
+				System.out.println(stagi.getNom());
+                */
+			}
+		});
 	    
 	    
 	   
