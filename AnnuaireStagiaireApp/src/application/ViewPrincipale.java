@@ -3,6 +3,10 @@ package application;
 
 import static javafx.scene.paint.Color.FIREBRICK;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -17,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -64,7 +67,7 @@ public class ViewPrincipale {
         Menu aideMenu = new Menu("Aide");
         
         //MenuItem download
-        MenuItem downloadItem = new MenuItem("Télécharger la documentation yes");
+        MenuItem downloadItem = new MenuItem("Télécharger la documentation");
         aideMenu.getItems().add(downloadItem);
         
 	    MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
@@ -220,7 +223,8 @@ public class ViewPrincipale {
 	    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
 	    
 	    tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
-	    tableauxList.setMinWidth(650);
+	    tableauxList.setMaxWidth(660);
+	    tableauxList.setMinWidth(660);
 	   
 	//    List<Stagiaire> liste = annuaire.getStagiaires();
 	    List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
@@ -248,12 +252,6 @@ public class ViewPrincipale {
 	    Button editBtn = new Button("Editer");
 	    HBox editBoxBtn = new HBox(5);
 	    editBoxBtn.getChildren().add(editBtn);
-	    Button saveBtn = new Button("Sauvegarder");
-	    HBox saveBoxBtn = new HBox(5);
-	    saveBoxBtn.getChildren().add(saveBtn);
-	    saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
-	    
-	    
 	    editBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
@@ -268,7 +266,18 @@ public class ViewPrincipale {
 			}
 		});
 	    
-	    
+	    Button saveBtn = new Button("Sauvegarder");
+	    HBox saveBoxBtn = new HBox(5);
+	    saveBoxBtn.getChildren().add(saveBtn);
+	    saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
+	    saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e) {
+				AnnuaireFileWriter annuaireFileWriter = new AnnuaireFileWriter();
+				annuaireFileWriter.getListAnnuaireBinaire(listStagiaireDansArbreBinaire);
+			}
+		});
 	   
 //		Button ajouterStagiaireBtn = new Button("Ajouter");
 	   
