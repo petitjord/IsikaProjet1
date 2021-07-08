@@ -1,8 +1,14 @@
 package application;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -110,6 +116,26 @@ public class Annuaire {
 			getElementsArbreBinaire(elements, noeud.droit);
 		}
 		elements.add(noeud.valeur);
+	}
+	
+	private static void modifierEncodageDe(String fichier_src,String fichier_dest, String ancien_enc, String nouveau_enc) throws IOException {
+		   FileInputStream src =  new FileInputStream(fichier_src);
+		   BufferedReader r = new BufferedReader(new InputStreamReader(src, ancien_enc));
+	 
+		   FileOutputStream dest = new FileOutputStream(fichier_dest);
+	       Writer w = new BufferedWriter(new OutputStreamWriter(dest, nouveau_enc));
+	 
+	       String donnee;
+	       while ( (donnee= r.readLine()) != null) {
+	 
+	          w.write(donnee);
+	          w.flush();
+	 
+	        }
+	 
+	        w.close();
+	        r.close();
+	        System.exit(0);
 	}
 
 

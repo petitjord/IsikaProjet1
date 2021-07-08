@@ -26,7 +26,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+
 import javafx.scene.control.TableView.TableViewSelectionModel;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -38,8 +40,12 @@ import javafx.stage.Stage;
 
 public class ViewPrincipale {
 
+
 	private String fileName = "C:/GitHubRepo/IsikaProjet1/STAGIAIRES.DON";
+
+
 	private Annuaire annuaire;
+	
 
 	private VueAjoutStagiaire vueAjoutStagiaire;
 	private EditerStagiaire editerStagiaire;
@@ -126,32 +132,35 @@ public class ViewPrincipale {
 			}
 
 
+
 		});
 
+	    	
+	//    });
+	    
+	    
+	    
+	    
+	    // colonne de gauche et de droite pour le menu globale
+	    HBox itemGauche = new HBox();
+	    itemGauche.getChildren().add(root);
+	    itemGauche.setAlignment(Pos.BASELINE_LEFT);
+	    HBox itemDroite = new HBox();
+	    itemDroite.setAlignment(Pos.BASELINE_RIGHT);
+	    itemDroite.getChildren().add(btnsBox);
+	    itemDroite.setPadding(new Insets(0, 0, 0, 380));
+	    
+	    GridPane gridMenu = new GridPane();
+	    gridMenu.add(itemGauche, 0, 0);
+	    gridMenu.add(itemDroite, 3, 0);
+	    gridMenu.setVgap(5); 
+	    gridMenu.setHgap(5);
+	    //gridMenu.setGridLinesVisible(true);
+	    gridMenu.setAlignment(Pos.BASELINE_LEFT);
+	    
+	    //gridMenu.setPadding(new Insets(0, 0, 0, 0));
+	    Label nameLabel = new Label("Nom-Prénom");
 
-
-
-		// colonne de gauche et de droite pour le menu globale
-		HBox itemGauche = new HBox();
-		itemGauche.getChildren().add(root);
-		itemGauche.setAlignment(Pos.BASELINE_LEFT);
-		HBox itemDroite = new HBox();
-		itemDroite.setAlignment(Pos.BASELINE_RIGHT);
-		itemDroite.getChildren().add(btnsBox);
-		itemDroite.setPadding(new Insets(0, 0, 0, 380));
-
-		GridPane gridMenu = new GridPane();
-		gridMenu.add(itemGauche, 0, 0);
-		gridMenu.add(itemDroite, 3, 0);
-		gridMenu.setVgap(5); 
-		gridMenu.setHgap(5);
-		//gridMenu.setGridLinesVisible(true);
-		gridMenu.setAlignment(Pos.BASELINE_LEFT);
-
-		//gridMenu.setPadding(new Insets(0, 0, 0, 0)); 
-
-		//Recherche avancée
-		Label nameLabel = new Label("Nom-Prénom");
 		TextField nameText = new TextField();
 		// ajout de la HBox
 		HBox searchBar = new HBox(10);
@@ -161,6 +170,10 @@ public class ViewPrincipale {
 		rootSearch.getChildren().addAll(searchBar);
 		//Label departementLabel = new Label("Départements");
 		//TextField departementText = new TextField();
+
+
+
+		
 
 		// box des départements
 		ChoiceBox departementchoiceBox = new ChoiceBox();
@@ -189,9 +202,11 @@ public class ViewPrincipale {
 		//validateBox.setAlignment(Pos.BOTTOM_RIGHT);
 		validateBox.getChildren().add(validateBtn);
 
+
 		// Hbox des comboBox
 		HBox itemsChoiceBox = new HBox(10);
 		itemsChoiceBox.getChildren().addAll(departementBox, yearBox, promotionBox, validateBox);
+		
 
 		GridPane gridPaneSearch = new GridPane();
 		gridPaneSearch.setHgap(10);
@@ -200,6 +215,7 @@ public class ViewPrincipale {
 		gridPaneSearch.add(searchBar, 0, 0);//searchBar
 		gridPaneSearch.add(itemsChoiceBox, 0, 1);//bouton valider
 		//gridPane.add(hbBtn2, 0, 7);//bouton Départements
+
 
 		//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
 		//		
@@ -211,25 +227,37 @@ public class ViewPrincipale {
 		//gridPaneSearch.add(departementText, 0, 1);
 
 
-		// Cr�ation du tableaux 
-
-		TableView<Stagiaire> tableauxList = new TableView();
-
-
-		//	    tableauxList.getSelectionModel().getSelectedItem();
-		//	    tableauxList.getSelectionModel().getSelectedItems();
-		TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
-		TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
-		TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
-		TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
-		TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
-
-		//FilteredList<Stagiaire> filteredData = new FilteredList<>(data, p -> true);
-		//filt
 		
 		
 
-		NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		
+//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
+//		
+//		gridPaneSearch.add(yearBox, 2, 1);//bouton Année
+//		
+		
+		
+		//gridPaneSearch.add(departementLabel, 0, 1);
+		//gridPaneSearch.add(departementText, 0, 1);
+	    
+	    // Création du tableaux 
+	    
+	    TableView<Stagiaire> tableauxList = new TableView();
+	    Stagiaire stagi = tableauxList.getSelectionModel().getSelectedItem();
+//	    tableauxList.getSelectionModel().getSelectedItem();
+//	    tableauxList.getSelectionModel().getSelectedItems();
+	    TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
+	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
+	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
+	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
+	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
+	    
+	    
+	  //FilteredList<Stagiaire> filteredData = new FilteredList<>(data, p -> true);
+	  		//filt
+	    
+	    NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+
 		PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
@@ -344,26 +372,27 @@ public class ViewPrincipale {
 			}
 		});
 
-
-
-		//		Button ajouterStagiaireBtn = new Button("Ajouter");
-
-		GridPane bottomBtns = new GridPane();
-		bottomBtns.add(printBoxBtn, 0, 0);
-		bottomBtns.add(deleteBoxBtn, 1, 0);
-		bottomBtns.add(editBoxBtn, 2, 0);
-		bottomBtns.add(saveBoxBtn, 5, 0);
-		bottomBtns.setPadding(new Insets(10, 0, 0, 20));
-		bottomBtns.setVgap(5);
-		bottomBtns.setHgap(5);
-
-		VBox canvas = new VBox();
-		canvas.setSpacing(5); 
-		//canvas.setHgap(5);
-		canvas.getChildren().addAll(gridMenu,gridPaneSearch, topBtns, tableauxBox,bottomBtns);
-
+ 
+	   
+//		Button ajouterStagiaireBtn = new Button("Ajouter");
+	   
+	    GridPane bottomBtns = new GridPane();
+	    bottomBtns.add(printBoxBtn, 0, 0);
+	    bottomBtns.add(deleteBoxBtn, 1, 0);
+	    bottomBtns.add(editBoxBtn, 2, 0);
+	    bottomBtns.add(saveBoxBtn, 5, 0);
+	    bottomBtns.setPadding(new Insets(10, 0, 0, 20));
+	    bottomBtns.setVgap(5);
+	    bottomBtns.setHgap(5);
+	    
+	    VBox canvas = new VBox();
+	    canvas.setSpacing(5); 
+	    //canvas.setHgap(5);
+	    canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
+	    
 		Scene scene = new Scene(canvas, 700, 550);
-		//		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
+
 
 		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
