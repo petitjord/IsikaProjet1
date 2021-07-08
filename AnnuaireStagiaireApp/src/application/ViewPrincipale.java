@@ -9,7 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,7 +27,11 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+
+import javafx.scene.control.TableView.TableViewSelectionModel;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -31,16 +40,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class ViewPrincipale {
-	
-	private String fileName = "C:/STAGIAIRES.DON";
+
+
+	private String fileName = "C:/GitHubRepo/IsikaProjet1/STAGIAIRES.DON";
+
+
 	private Annuaire annuaire;
 	
 
 	private VueAjoutStagiaire vueAjoutStagiaire;
 	private EditerStagiaire editerStagiaire;
 	private Connexion connexionStagiaire;
-	
+
 
 	public ViewPrincipale() {
 		initAnnuaire();
@@ -50,71 +63,83 @@ public class ViewPrincipale {
 		annuaire = new Annuaire();
 		annuaire.lectureFichier(fileName);
 	}
-	
+
 	//public void afficher() {
 	public void start(Stage primaryStage) {
-		
+
 		vueAjoutStagiaire = new VueAjoutStagiaire(this);
 		editerStagiaire = new EditerStagiaire(this);
 		connexionStagiaire = new Connexion(this);
-		
+
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
 		// menus
+
         Menu ouvrirMenu = new Menu("Ouvrir");
         Menu ajouterMenu = new Menu("Ajouter");
         Menu editerMenu = new Menu("Editer");
         Menu aideMenu = new Menu("Aide");
-        
-        //MenuItem download
-        MenuItem downloadItem = new MenuItem("Télécharger la documentation");
-        aideMenu.getItems().add(downloadItem);
-        
-	    MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
-	    ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
-	    ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-			
+
+		//MenuItem download
+		MenuItem downloadItem = new MenuItem("Télécharger la documentation");
+		aideMenu.getItems().add(downloadItem);
+		downloadItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
+		ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
+		ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				vueAjoutStagiaire.afficher();
 			}
 		});
-	    
-	    MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
-	    editerMenu.getItems().add(editerStagiaireMenuItem);
-	    editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-	    	
-	    	@Override
-	    	public void handle(ActionEvent arg0) {
-	    		editerStagiaire.afficher();
-	    	}
-	    });
-	    
-	    
-	    // ajout de tous les menus
-	    menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
-	    
-	    BorderPane root = new BorderPane();
-	    root.setTop(menuBarApp);
-        
-        //Button et hbox pour connexion 
-	    Button buttonConnexion = new Button("Connexion");
-        HBox btnsBox = new HBox(10);
-        buttonConnexion.setAlignment(Pos.BASELINE_LEFT);
-	    btnsBox.getChildren().add(buttonConnexion);
-	    
-	    buttonConnexion.setOnAction(new EventHandler<ActionEvent>() {
+
+		MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
+		editerMenu.getItems().add(editerStagiaireMenuItem);
+		editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				editerStagiaire.afficher();
+			}
+		});
+
+
+		// ajout de tous les menus
+		menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
+
+		BorderPane root = new BorderPane();
+		root.setTop(menuBarApp);
+
+		//Button et hbox pour connexion 
+		Button buttonConnexion = new Button("Connexion");
+		HBox btnsBox = new HBox(10);
+		buttonConnexion.setAlignment(Pos.BASELINE_LEFT);
+		btnsBox.getChildren().add(buttonConnexion);
+
+		buttonConnexion.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
-				
+
+
 				connexionStagiaire.afficher();
 			}
+
+		});
+
 	    	
-	    	
-	    });
+	//    });
 	    
 	    
 	    
@@ -138,6 +163,7 @@ public class ViewPrincipale {
 	    
 	    //gridMenu.setPadding(new Insets(0, 0, 0, 0));
 	    Label nameLabel = new Label("Nom-Prénom");
+
 		TextField nameText = new TextField();
 		// ajout de la HBox
 		HBox searchBar = new HBox(10);
@@ -147,7 +173,11 @@ public class ViewPrincipale {
 		rootSearch.getChildren().addAll(searchBar);
 		//Label departementLabel = new Label("Départements");
 		//TextField departementText = new TextField();
+
+
+
 		
+
 		// box des départements
 		ChoiceBox departementchoiceBox = new ChoiceBox();
 		departementchoiceBox.getItems().addAll(76, 78, 91, 92, 93, 94, 95);
@@ -168,17 +198,19 @@ public class ViewPrincipale {
 		HBox promotionBox = new HBox(10);
 		//promotionBox.setAlignment(Pos.BASELINE_RIGHT);
 		promotionBox.getChildren().add(promotionBtn);
-		
+
 		// Ajout des boutons à la grille
 		Button validateBtn = new Button("Valider");
 		HBox validateBox = new HBox(10);
 		//validateBox.setAlignment(Pos.BOTTOM_RIGHT);
 		validateBox.getChildren().add(validateBtn);
-		
+
+
 		// Hbox des comboBox
 		HBox itemsChoiceBox = new HBox(10);
 		itemsChoiceBox.getChildren().addAll(departementBox, yearBox, promotionBox, validateBox);
 		
+
 		GridPane gridPaneSearch = new GridPane();
 		gridPaneSearch.setHgap(10);
 		gridPaneSearch.setVgap(10);
@@ -186,6 +218,21 @@ public class ViewPrincipale {
 		gridPaneSearch.add(searchBar, 0, 0);//searchBar
 		gridPaneSearch.add(itemsChoiceBox, 0, 1);//bouton valider
 		//gridPane.add(hbBtn2, 0, 7);//bouton Départements
+
+
+		//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
+		//		
+		//		gridPaneSearch.add(yearBox, 2, 1);//bouton Année
+		//		
+
+
+		//gridPaneSearch.add(departementLabel, 0, 1);
+		//gridPaneSearch.add(departementText, 0, 1);
+
+
+		
+		
+
 		
 //		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
 //		
@@ -209,26 +256,29 @@ public class ViewPrincipale {
 	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
 	    
 	    
+	  //FilteredList<Stagiaire> filteredData = new FilteredList<>(data, p -> true);
+	  		//filt
+	    
 	    NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		AnneeCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-		
-	    
-	    NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
-	    PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("prenom"));
-	    DepartementCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("departement"));
-	    PromotionCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("promo"));
-	    AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
-	    
-	    tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
+
+
+		NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
+		PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("prenom"));
+		DepartementCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("departement"));
+		PromotionCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("promo"));
+		AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
+
+		tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
 	    tableauxList.setMaxWidth(660);
 	    tableauxList.setMinWidth(660);
-	   
-	//    List<Stagiaire> liste = annuaire.getStagiaires();
-	    List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
-	    tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
+
+		//    List<Stagiaire> liste = annuaire.getStagiaires();
+		List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
+		tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
 	    
 	    Button selectAllBtn = new Button("Sélectionner tout");
 	    HBox selectAllBoxBtn = new HBox(5);
@@ -252,19 +302,75 @@ public class ViewPrincipale {
 	    Button editBtn = new Button("Editer");
 	    HBox editBoxBtn = new HBox(5);
 	    editBoxBtn.getChildren().add(editBtn);
-	    editBtn.setOnAction(new EventHandler<ActionEvent>() {
 			
+
+		editBtn.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent e) {
 				// TODO Auto-generated method stub
+				
 				editerStagiaire.afficher();
-		/*		EditerStagiaire nom = new EditerStagiaire(null);
+
+				Stagiaire selectedLine = tableauxList.getSelectionModel().getSelectedItem();
 				
+		/*		System.out.println(selectedLine.nom);
+				System.out.println(selectedLine.prenom);
+				System.out.println(selectedLine.departement);
+				System.out.println(selectedLine.promo);
+				System.out.println(selectedLine.annee); */
 				
-				System.out.println(stagi.getNom());
-                */
+			//	editerStagiaire.getTextFieldFormulaire(selectedLine.nom, selectedLine.prenom, selectedLine.departement, selectedLine.promo, selectedLine.annee);
+				
+
+
+
+
+
+
+				/*		    tableauxList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+					@Override
+					public void changed(ObservableValue aobservableValue, Object oldValue, Object newValue) {
+						// TODO Auto-generated method stub
+						if(tableauxList.getSelectionModel().getSelectedItem() != null)
+						{
+							TableViewSelectionModel selectionModel = tableauxList.getSelectionModel();
+							ObservableList selectedCells = selectionModel.getSelectedCells();
+							TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+							Object val = tablePosition.getTableColumn().getCellData(newValue);
+							System.out.println(val);
+						}
+
+
+					}
+
+
+				});
+				 */
+
+
+				/*			tableauxList.getSelectionModel().setCellSelectionEnabled(true);
+				ObservableList selectedCells = tableauxList.getSelectionModel().getSelectedCells();
+
+				selectedCells.addListener(new ListChangeListener() {
+
+					@Override
+					public void onChanged(Change c) {
+						// TODO Auto-generated method stub
+						TablePosition tablePosition = (TablePosition) selectedCells.get(0);
+						Object val = tablePosition.getTableColumn().getCellData(tablePosition.getRow());
+						System.out.println(val);
+
+
+					}
+
+				}); */
+
+
 			}
 		});
+
 	    
 	    Button saveBtn = new Button("Sauvegarder");
 	    HBox saveBoxBtn = new HBox(5);
@@ -278,6 +384,7 @@ public class ViewPrincipale {
 				annuaireFileWriter.getListAnnuaireBinaire(listStagiaireDansArbreBinaire);
 			}
 		});
+
 	   
 //		Button ajouterStagiaireBtn = new Button("Ajouter");
 	   
@@ -298,11 +405,12 @@ public class ViewPrincipale {
 		Scene scene = new Scene(canvas, 700, 550);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 
+
 		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-	
+
 	public Annuaire getAnnuaire() {
 		return annuaire;
 	}

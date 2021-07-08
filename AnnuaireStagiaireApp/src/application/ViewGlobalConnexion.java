@@ -35,6 +35,7 @@ public class ViewGlobalConnexion {
         VBox titreBox = new VBox(10);
         titreBox.getChildren().addAll(titre, titre2);
         titreBox.setAlignment(Pos.CENTER);
+
        
         Label login = new Label("Login:");
         TextField loginTextField = new TextField();
@@ -43,9 +44,13 @@ public class ViewGlobalConnexion {
         loginBox.setAlignment(Pos.CENTER);
         
         Label pswd = new Label("Mot de passe :");
+
+        
+
         PasswordField passwordField = new PasswordField();
         HBox pswdBox = new HBox(10);
         pswdBox.getChildren().addAll(pswd, passwordField);
+
         pswdBox.setAlignment(Pos.CENTER);
         
         //Ajout du bouton à la grille

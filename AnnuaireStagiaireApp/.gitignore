@@ -4,4 +4,8 @@
 /bin/
 *.ini
 
+<<<<<<< HEAD
 **/desktop.ini
+=======
+./**/desktop.ini
+>>>>>>> 3f33ed1bc88fe7f4fe5e89e7dc824851161f73fe
