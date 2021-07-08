@@ -30,12 +30,22 @@ public class ViewGlobalConnexion {
         Text titre2 = new Text("Connecte toi pour accéder à plus d'options");
         //Utilis� dans le fichier css pour identifier le noeud
         titre.setId("titreText");
+        VBox titreBox = new VBox(10);
+        titreBox.getChildren().addAll(titre, titre2);
+        titreBox.setAlignment(Pos.CENTER);
+        
        
         Label login = new Label("Login:");
         TextField loginTextField = new TextField();
+        HBox loginBox = new HBox(55);
+        loginBox.getChildren().addAll(login, loginTextField);
+        loginBox.setAlignment(Pos.CENTER);
         
         Label pswd = new Label("Mot de passe :");
         PasswordField pswdPasswordField = new PasswordField();
+        HBox pswdBox = new HBox(10);
+        pswdBox.getChildren().addAll(pswd, pswdPasswordField);
+        pswdBox.setAlignment(Pos.CENTER);
         
         //Ajout du bouton � la grille
         Button btn = new Button("Connexion");

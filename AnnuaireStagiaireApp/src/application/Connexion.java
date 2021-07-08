@@ -45,6 +45,8 @@ public class Connexion {
 
 		Label login = new Label("Login:");
 		TextField loginTextField = new TextField();
+		
+		
 
 		Label pswd = new Label("Mot de passe :");
 		PasswordField pswdPasswordField = new PasswordField();

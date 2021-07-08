@@ -28,28 +28,33 @@ public class EditerStagiaire {
 		init();
 	}
 
+	
+	
 	private void init() {
 
-		TextField nameText = new TextField();
+
 		Text titre = new Text("Modifier un stagiaire");
+		TextField nameText = new TextField();
 
 		Label nameLabel = new Label("Nom");
+	//	TextField nameText = new TextField();
 
 
 		Label firstNameLabel = new Label("Prénom");
 		TextField firstNameText = new TextField();
 
+
 		Label departementLabel = new Label("Département");
 		TextField departementText = new TextField();
 
+
 		Label promotionsLabel = new Label("Promotion");
-
-		//	ComboBox proms = new ComboBox(FXCollections.observableArrayList();
-
 		ChoiceBox<String> promochoiceBox = new ChoiceBox<String>();
 		promochoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllPromos());
 
+
 		Label anneeLabel = new Label("Année");
+		
 		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox<Integer>();
 		anneechoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllYears());
 
@@ -83,6 +88,7 @@ public class EditerStagiaire {
 
 		gridPane.add(nameLabel, 0, 1); 
 		gridPane.add(nameText, 1, 1); 
+		
 
 
 
@@ -96,19 +102,31 @@ public class EditerStagiaire {
 
 		gridPane.add(promotionsLabel, 0, 4); 
 		gridPane.add(promochoiceBox, 1, 4); 
-		//	gridPane.add(proms, 0, 3);
+
 
 		gridPane.add(anneeLabel, 0, 5); 
 		gridPane.add(anneechoiceBox, 1, 5);
-		//	gridPane.add(annee, 2, 3);  
+
 
 		gridPane.add(buttonConfirm, 1, 7); 
 		GridPane.setHalignment(buttonConfirm, HPos.CENTER);
 
 
 	}
+	
+	
+	public void getTextFieldFormulaire (String nom, String prenom, int departement, String promo, int annee ) {
+		
+		
+		 
+		
+		
+	
+		
+	}
 
 
+	
 	public void afficher() {
 		Stage primaryStage = new Stage();
 		Scene scene = new Scene(gridPane,500,500);
