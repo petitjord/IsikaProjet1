@@ -52,12 +52,13 @@ public class EditerStagiaire {
 		Label promotionsLabel = new Label("Promotion");
 		ChoiceBox<String> promochoiceBox = new ChoiceBox<String>();
 		promochoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllPromos());
-		
+		promochoiceBox.setValue(stagiaire.promo);
 
 
 		Label anneeLabel = new Label("Année");
 		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox<Integer>();
 		anneechoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllYears());
+		anneechoiceBox.setValue(stagiaire.annee);
 
 
 		Button buttonConfirm = new Button("Valider les modifications");

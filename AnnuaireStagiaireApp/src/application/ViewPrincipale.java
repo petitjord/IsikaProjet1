@@ -67,7 +67,6 @@ public class ViewPrincipale {
 		MenuBar menuBarApp = new MenuBar();
 
 		// menus
-
 		Menu ouvrirMenu = new Menu("Ouvrir");
 		Menu ajouterMenu = new Menu("Ajouter");
 		Menu editerMenu = new Menu("Editer");
@@ -103,7 +102,6 @@ public class ViewPrincipale {
 
 		// ajout de tous les menus
 		menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
-
 		BorderPane root = new BorderPane();
 		root.setTop(menuBarApp);
 
@@ -112,13 +110,11 @@ public class ViewPrincipale {
 		HBox btnsBox = new HBox(10);
 		buttonConnexion.setAlignment(Pos.BASELINE_LEFT);
 		btnsBox.getChildren().add(buttonConnexion);
-
 		buttonConnexion.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-
 				afficherVueConnexion();
 			}
 
@@ -153,8 +149,6 @@ public class ViewPrincipale {
 		VBox rootSearch = new VBox();
 		rootSearch.getChildren().addAll(searchBar);
 
-
-
 		// box des départements
 		ChoiceBox departementchoiceBox = new ChoiceBox();
 		departementchoiceBox.getItems().addAll(getAnnuaire().getAllDep());
@@ -162,14 +156,12 @@ public class ViewPrincipale {
 		HBox departementBox = new HBox(10);
 		departementBox.getChildren().add(departementBtn);
 
-
 		// box des années
 		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox();
 		anneechoiceBox.getItems().addAll(getAnnuaire().getAllYears());
 		Button yearBtn = new Button("Année", anneechoiceBox);
 		HBox yearBox = new HBox(10);
 		yearBox.getChildren().add(yearBtn);
-
 
 		// box des promotions
 		ChoiceBox<String> promotionschoiceBox = new ChoiceBox();
@@ -183,11 +175,9 @@ public class ViewPrincipale {
 		HBox validateBox = new HBox(10);
 		validateBox.getChildren().add(validateBtn);
 
-
 		// Hbox des comboBox
 		HBox itemsChoiceBox = new HBox(10);
 		itemsChoiceBox.getChildren().addAll(departementBox, yearBox, promotionBox, validateBox);
-
 
 		GridPane gridPaneSearch = new GridPane();
 		gridPaneSearch.setHgap(10);
@@ -207,13 +197,11 @@ public class ViewPrincipale {
 		TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
 		TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
 
-
 		NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		AnneeCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
-
 
 		NomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("nom"));
 		PrenomCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("prenom"));
@@ -236,7 +224,6 @@ public class ViewPrincipale {
 
 		tableauxList.setMaxWidth(660);
 		tableauxList.setMinWidth(660);
-
 
 		List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
 		tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
@@ -274,7 +261,6 @@ public class ViewPrincipale {
 
 		});
 
-
 		Button saveBtn = new Button("Sauvegarder");
 		HBox saveBoxBtn = new HBox(5);
 		saveBoxBtn.getChildren().add(saveBtn);
@@ -287,8 +273,6 @@ public class ViewPrincipale {
 				annuaireFileWriter.getListAnnuaireBinaire(listStagiaireDansArbreBinaire);
 			}
 		});
-
-
 
 		GridPane bottomBtns = new GridPane();
 		bottomBtns.add(printBoxBtn, 0, 0);
@@ -303,7 +287,6 @@ public class ViewPrincipale {
 		VBox canvas = new VBox();
 		canvas.setSpacing(5); 
 		canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
-
 
 		Scene scene = new Scene(canvas, 700, 550);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
