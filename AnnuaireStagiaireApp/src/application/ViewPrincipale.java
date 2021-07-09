@@ -3,6 +3,10 @@ package application;
 
 import static javafx.scene.paint.Color.FIREBRICK;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 import javafx.beans.value.ChangeListener;
@@ -23,7 +27,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
@@ -59,12 +62,12 @@ public class ViewPrincipale {
 
 	public void start(Stage primaryStage) {
 
-		connexionStagiaire = new Connexion(this);
 
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
-		
+
 		// menus
+
 		Menu ouvrirMenu = new Menu("Ouvrir");
 		Menu ajouterMenu = new Menu("Ajouter");
 		Menu editerMenu = new Menu("Editer");
@@ -86,11 +89,12 @@ public class ViewPrincipale {
 		ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
 		ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
 
+
 			@Override
 			public void handle(ActionEvent arg0) {
 				afficherVueAjoutStagiaire();
 			}
-			
+
 		});
 
 		MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
@@ -115,16 +119,10 @@ public class ViewPrincipale {
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
-
-				connexionStagiaire.afficher();
+				afficherVueConnexion();
 			}
 
-
-
 		});
-
-
-
 
 		// Recherche Avancée
 
@@ -146,11 +144,11 @@ public class ViewPrincipale {
 
 		Label nameLabel = new Label("Nom-Prénom");
 		TextField nameText = new TextField();
-		
+
 		// ajout de la HBox
 		HBox searchBar = new HBox(10);
 		searchBar.getChildren().addAll(nameLabel, nameText);
-		
+
 		// ajout de la VBox
 		VBox rootSearch = new VBox();
 		rootSearch.getChildren().addAll(searchBar);
@@ -197,7 +195,7 @@ public class ViewPrincipale {
 		gridPaneSearch.setPadding(new Insets(20, 20, 20, 20));
 		gridPaneSearch.add(searchBar, 0, 0);
 		gridPaneSearch.add(itemsChoiceBox, 0, 1);
-		
+
 
 		// Création du tableaux 
 
@@ -236,11 +234,14 @@ public class ViewPrincipale {
 			}
 		});
 
+		tableauxList.setMaxWidth(660);
+		tableauxList.setMinWidth(660);
+
+
 		List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
 		tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
 
 		Button selectAllBtn = new Button("Sélectionner tout");
-		
 		HBox selectAllBoxBtn = new HBox(5);
 		selectAllBoxBtn.getChildren().add(selectAllBtn);
 
@@ -262,12 +263,6 @@ public class ViewPrincipale {
 		Button editBtn = new Button("Editer");
 		HBox editBoxBtn = new HBox(5);
 		editBoxBtn.getChildren().add(editBtn);
-		Button saveBtn = new Button("Sauvegarder");
-		HBox saveBoxBtn = new HBox(5);
-		saveBoxBtn.getChildren().add(saveBtn);
-		saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
-
-
 		editBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -275,11 +270,25 @@ public class ViewPrincipale {
 
 				Stagiaire selectedLine = tableauxList.getSelectionModel().getSelectedItem();
 				afficherVueEditerStagiaire(selectedLine);
-
-
 			}
-			
+
 		});
+
+
+		Button saveBtn = new Button("Sauvegarder");
+		HBox saveBoxBtn = new HBox(5);
+		saveBoxBtn.getChildren().add(saveBtn);
+		saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
+		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				AnnuaireFileWriter annuaireFileWriter = new AnnuaireFileWriter();
+				annuaireFileWriter.getListAnnuaireBinaire(listStagiaireDansArbreBinaire);
+			}
+		});
+
+
 
 		GridPane bottomBtns = new GridPane();
 		bottomBtns.add(printBoxBtn, 0, 0);
@@ -290,10 +299,11 @@ public class ViewPrincipale {
 		bottomBtns.setVgap(5);
 		bottomBtns.setHgap(5);
 		bottomBtns.setStyle("-fx-background-color : BLACK");
-		
+
 		VBox canvas = new VBox();
 		canvas.setSpacing(5); 
 		canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
+
 
 		Scene scene = new Scene(canvas, 700, 550);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
@@ -305,18 +315,23 @@ public class ViewPrincipale {
 	public Annuaire getAnnuaire() {
 		return annuaire;
 	}
-	
+
 	public void editerStagiaire(Stagiaire stagiaire) {
 		annuaire.modifierStagiaire(stagiaire);
 	}
-	
+
 	private void afficherVueEditerStagiaire(Stagiaire stagiaire) {
 		editerStagiaire = new EditerStagiaire(this, stagiaire);
 		editerStagiaire.afficher();
 	}
-	
+
 	private void afficherVueAjoutStagiaire() {
 		vueAjoutStagiaire = new VueAjoutStagiaire(this);
 		vueAjoutStagiaire.afficher();
+	}
+
+	private void afficherVueConnexion() {
+		connexionStagiaire = new Connexion(this);
+		connexionStagiaire.afficher();
 	}
 }
