@@ -32,24 +32,21 @@ public class Connexion {
 		init();
 	}
 
-	
-	//public void start(Stage primaryStage) {
 	private void init() {
 
 
 		//Remplir la grille
 		Text titre = new Text("Connecte toi pour accéder à plus d'options");
-		//titre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
 		titre.setId("titreText");
 
 		Label login = new Label("Login:");
 		TextField loginTextField = new TextField();
-		
-		
+
 
 		Label pswd = new Label("Mot de passe :");
 		PasswordField pswdPasswordField = new PasswordField();
+
 
 		//Ajout du bouton � la grille
 		Button btn = new Button("Connexion");
@@ -64,19 +61,12 @@ public class Connexion {
 		//Action Bouton
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
-		public void handle(ActionEvent e) {
+			public void handle(ActionEvent e) {
 				actionTexte.setFill(FIREBRICK);
 				actionTexte.setText("Vérification en cours");
-				
-		
 			}
 
 		});
-
-
-
-
-
 
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setHgap(10);
@@ -95,9 +85,10 @@ public class Connexion {
 
 	public void afficher() {
 		Stage primaryStage = new Stage();
-		Scene scene = new Scene(gridPane,500,500);
+		Scene scene = new Scene(gridPane,400,400);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Dev' d'Avant -  Connexion");
+		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
+		primaryStage.setTitle("DÉVELOPPEURS D'AVANT -  Formulaire de connexion");
 		primaryStage.show();
 	}
 

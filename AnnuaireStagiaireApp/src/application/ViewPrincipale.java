@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,9 +27,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
-
 import javafx.scene.control.TableView.TableViewSelectionModel;
-
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -43,10 +42,7 @@ public class ViewPrincipale {
 
 	private String fileName = "C:/GitHubRepo/IsikaProjet1/STAGIAIRES.DON";
 
-
 	private Annuaire annuaire;
-	
-
 	private VueAjoutStagiaire vueAjoutStagiaire;
 	private EditerStagiaire editerStagiaire;
 	private Connexion connexionStagiaire;
@@ -61,15 +57,13 @@ public class ViewPrincipale {
 		annuaire.lectureFichier(fileName);
 	}
 
-	//public void afficher() {
 	public void start(Stage primaryStage) {
 
-		vueAjoutStagiaire = new VueAjoutStagiaire(this);
-		editerStagiaire = new EditerStagiaire(this);
 		connexionStagiaire = new Connexion(this);
 
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
+		
 		// menus
 		Menu ouvrirMenu = new Menu("Ouvrir");
 		Menu ajouterMenu = new Menu("Ajouter");
@@ -94,19 +88,13 @@ public class ViewPrincipale {
 
 			@Override
 			public void handle(ActionEvent arg0) {
-				vueAjoutStagiaire.afficher();
+				afficherVueAjoutStagiaire();
 			}
+			
 		});
 
 		MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
 		editerMenu.getItems().add(editerStagiaireMenuItem);
-		editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				editerStagiaire.afficher();
-			}
-		});
 
 
 		// ajout de tous les menus
@@ -135,129 +123,94 @@ public class ViewPrincipale {
 
 		});
 
-	    	
-	//    });
-	    
-	    
-	    
-	    
-	    // colonne de gauche et de droite pour le menu globale
-	    HBox itemGauche = new HBox();
-	    itemGauche.getChildren().add(root);
-	    itemGauche.setAlignment(Pos.BASELINE_LEFT);
-	    HBox itemDroite = new HBox();
-	    itemDroite.setAlignment(Pos.BASELINE_RIGHT);
-	    itemDroite.getChildren().add(btnsBox);
-	    itemDroite.setPadding(new Insets(0, 0, 0, 380));
-	    
-	    GridPane gridMenu = new GridPane();
-	    gridMenu.add(itemGauche, 0, 0);
-	    gridMenu.add(itemDroite, 3, 0);
-	    gridMenu.setVgap(5); 
-	    gridMenu.setHgap(5);
-	    //gridMenu.setGridLinesVisible(true);
-	    gridMenu.setAlignment(Pos.BASELINE_LEFT);
-	    
-	    //gridMenu.setPadding(new Insets(0, 0, 0, 0));
-	    Label nameLabel = new Label("Nom-Prénom");
 
+
+
+		// Recherche Avancée
+
+		// colonne de gauche et de droite pour le menu globale
+		HBox itemGauche = new HBox();
+		itemGauche.getChildren().add(root);
+		itemGauche.setAlignment(Pos.BASELINE_LEFT);
+		HBox itemDroite = new HBox();
+		itemDroite.setAlignment(Pos.BASELINE_RIGHT);
+		itemDroite.getChildren().add(btnsBox);
+		itemDroite.setPadding(new Insets(0, 0, 0, 380));
+
+		GridPane gridMenu = new GridPane();
+		gridMenu.add(itemGauche, 0, 0);
+		gridMenu.add(itemDroite, 3, 0);
+		gridMenu.setVgap(5); 
+		gridMenu.setHgap(5);
+		gridMenu.setAlignment(Pos.BASELINE_LEFT);
+
+		Label nameLabel = new Label("Nom-Prénom");
 		TextField nameText = new TextField();
+		
 		// ajout de la HBox
 		HBox searchBar = new HBox(10);
 		searchBar.getChildren().addAll(nameLabel, nameText);
+		
 		// ajout de la VBox
 		VBox rootSearch = new VBox();
 		rootSearch.getChildren().addAll(searchBar);
-		//Label departementLabel = new Label("Départements");
-		//TextField departementText = new TextField();
 
 
-
-		
 
 		// box des départements
 		ChoiceBox departementchoiceBox = new ChoiceBox();
-		departementchoiceBox.getItems().addAll(76, 78, 91, 92, 93, 94, 95);
+		departementchoiceBox.getItems().addAll(getAnnuaire().getAllDep());
 		Button departementBtn = new Button("Départements", departementchoiceBox);
 		HBox departementBox = new HBox(10);
 		departementBox.getChildren().add(departementBtn);
+
+
 		// box des années
 		ChoiceBox<Integer> anneechoiceBox = new ChoiceBox();
-		//anneechoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllYears());
+		anneechoiceBox.getItems().addAll(getAnnuaire().getAllYears());
 		Button yearBtn = new Button("Année", anneechoiceBox);
 		HBox yearBox = new HBox(10);
-		//yearBox.setAlignment(Pos.BASELINE_LEFT);
 		yearBox.getChildren().add(yearBtn);
+
+
 		// box des promotions
 		ChoiceBox<String> promotionschoiceBox = new ChoiceBox();
-		//promotionschoiceBox.getItems().addAll(viewPrincipale.getAnnuaire().getAllPromos());
+		promotionschoiceBox.getItems().addAll(getAnnuaire().getAllPromos());
 		Button promotionBtn = new Button("Promotions", promotionschoiceBox);
 		HBox promotionBox = new HBox(10);
-		//promotionBox.setAlignment(Pos.BASELINE_RIGHT);
 		promotionBox.getChildren().add(promotionBtn);
 
 		// Ajout des boutons à la grille
 		Button validateBtn = new Button("Valider");
 		HBox validateBox = new HBox(10);
-		//validateBox.setAlignment(Pos.BOTTOM_RIGHT);
 		validateBox.getChildren().add(validateBtn);
 
 
 		// Hbox des comboBox
 		HBox itemsChoiceBox = new HBox(10);
 		itemsChoiceBox.getChildren().addAll(departementBox, yearBox, promotionBox, validateBox);
-		
+
 
 		GridPane gridPaneSearch = new GridPane();
 		gridPaneSearch.setHgap(10);
 		gridPaneSearch.setVgap(10);
 		gridPaneSearch.setPadding(new Insets(20, 20, 20, 20));
-		gridPaneSearch.add(searchBar, 0, 0);//searchBar
-		gridPaneSearch.add(itemsChoiceBox, 0, 1);//bouton valider
-		//gridPane.add(hbBtn2, 0, 7);//bouton Départements
-
-
-		//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
-		//		
-		//		gridPaneSearch.add(yearBox, 2, 1);//bouton Année
-		//		
-
-
-		//gridPaneSearch.add(departementLabel, 0, 1);
-		//gridPaneSearch.add(departementText, 0, 1);
-
-
-		
+		gridPaneSearch.add(searchBar, 0, 0);
+		gridPaneSearch.add(itemsChoiceBox, 0, 1);
 		
 
-		
-//		gridPaneSearch.add(promotionBox, 3, 1);//bouton Promotions
-//		
-//		gridPaneSearch.add(yearBox, 2, 1);//bouton Année
-//		
-		
-		
-		//gridPaneSearch.add(departementLabel, 0, 1);
-		//gridPaneSearch.add(departementText, 0, 1);
-	    
-	    // Création du tableaux 
-	    
-	    TableView<Stagiaire> tableauxList = new TableView();
-	    Stagiaire stagi = tableauxList.getSelectionModel().getSelectedItem();
-//	    tableauxList.getSelectionModel().getSelectedItem();
-//	    tableauxList.getSelectionModel().getSelectedItems();
-	    TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
-	    TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
-	    TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
-	    TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
-	    TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
-	    
-	    
-	  //FilteredList<Stagiaire> filteredData = new FilteredList<>(data, p -> true);
-	  		//filt
-	    
-	    NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
+		// Création du tableaux 
 
+		TableView<Stagiaire> tableauxList = new TableView();
+		Stagiaire stagi = tableauxList.getSelectionModel().getSelectedItem();
+		TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
+		TableColumn<Stagiaire, String> PrenomCol = new TableColumn<>("Prenom");
+		TableColumn<Stagiaire, String> DepartementCol = new TableColumn<>("Département");
+		TableColumn<Stagiaire, String> PromotionCol = new TableColumn<>("Promotion");
+		TableColumn<Stagiaire, String> AnneeCol = new TableColumn<>("Année");
+
+
+		NomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PrenomCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		DepartementCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
 		PromotionCol.prefWidthProperty().bind(tableauxList.widthProperty().divide(5));
@@ -271,13 +224,23 @@ public class ViewPrincipale {
 		AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
 
 		tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
-		tableauxList.setMinWidth(650);
+		tableauxList.setMaxWidth(660);
+		tableauxList.setMinWidth(660);
 
-		//    List<Stagiaire> liste = annuaire.getStagiaires();
+		editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stagiaire selectedLine = tableauxList.getSelectionModel().getSelectedItem();
+				afficherVueEditerStagiaire(selectedLine);
+			}
+		});
+
 		List<Stagiaire> listStagiaireDansArbreBinaire = annuaire.getListStagiaireDansArbreBinaire();
 		tableauxList.setItems(FXCollections.observableList(listStagiaireDansArbreBinaire));
 
 		Button selectAllBtn = new Button("Sélectionner tout");
+		
 		HBox selectAllBoxBtn = new HBox(5);
 		selectAllBoxBtn.getChildren().add(selectAllBtn);
 
@@ -304,102 +267,56 @@ public class ViewPrincipale {
 		saveBoxBtn.getChildren().add(saveBtn);
 		saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
 
-		
+
 		editBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				editerStagiaire.afficher();
 
 				Stagiaire selectedLine = tableauxList.getSelectionModel().getSelectedItem();
-				
-		/*		System.out.println(selectedLine.nom);
-				System.out.println(selectedLine.prenom);
-				System.out.println(selectedLine.departement);
-				System.out.println(selectedLine.promo);
-				System.out.println(selectedLine.annee); */
-				
-			//	editerStagiaire.getTextFieldFormulaire(selectedLine.nom, selectedLine.prenom, selectedLine.departement, selectedLine.promo, selectedLine.annee);
-				
-
-
-
-
-
-
-				/*		    tableauxList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-
-					@Override
-					public void changed(ObservableValue aobservableValue, Object oldValue, Object newValue) {
-						// TODO Auto-generated method stub
-						if(tableauxList.getSelectionModel().getSelectedItem() != null)
-						{
-							TableViewSelectionModel selectionModel = tableauxList.getSelectionModel();
-							ObservableList selectedCells = selectionModel.getSelectedCells();
-							TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-							Object val = tablePosition.getTableColumn().getCellData(newValue);
-							System.out.println(val);
-						}
-
-
-					}
-
-
-				});
-				 */
-
-
-				/*			tableauxList.getSelectionModel().setCellSelectionEnabled(true);
-				ObservableList selectedCells = tableauxList.getSelectionModel().getSelectedCells();
-
-				selectedCells.addListener(new ListChangeListener() {
-
-					@Override
-					public void onChanged(Change c) {
-						// TODO Auto-generated method stub
-						TablePosition tablePosition = (TablePosition) selectedCells.get(0);
-						Object val = tablePosition.getTableColumn().getCellData(tablePosition.getRow());
-						System.out.println(val);
-
-
-					}
-
-				}); */
+				afficherVueEditerStagiaire(selectedLine);
 
 
 			}
+			
 		});
 
- 
-	   
-//		Button ajouterStagiaireBtn = new Button("Ajouter");
-	   
-	    GridPane bottomBtns = new GridPane();
-	    bottomBtns.add(printBoxBtn, 0, 0);
-	    bottomBtns.add(deleteBoxBtn, 1, 0);
-	    bottomBtns.add(editBoxBtn, 2, 0);
-	    bottomBtns.add(saveBoxBtn, 5, 0);
-	    bottomBtns.setPadding(new Insets(10, 0, 0, 20));
-	    bottomBtns.setVgap(5);
-	    bottomBtns.setHgap(5);
-	    
-	    VBox canvas = new VBox();
-	    canvas.setSpacing(5); 
-	    //canvas.setHgap(5);
-	    canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
-	    
+		GridPane bottomBtns = new GridPane();
+		bottomBtns.add(printBoxBtn, 0, 0);
+		bottomBtns.add(deleteBoxBtn, 1, 0);
+		bottomBtns.add(editBoxBtn, 2, 0);
+		bottomBtns.add(saveBoxBtn, 5, 0);
+		bottomBtns.setPadding(new Insets(10, 0, 0, 20));
+		bottomBtns.setVgap(5);
+		bottomBtns.setHgap(5);
+		bottomBtns.setStyle("-fx-background-color : BLACK");
+		
+		VBox canvas = new VBox();
+		canvas.setSpacing(5); 
+		canvas.getChildren().addAll(gridMenu, gridPaneSearch, topBtns, tableauxBox,bottomBtns);
+
 		Scene scene = new Scene(canvas, 700, 550);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
-
-
-		primaryStage.setTitle("Développeur d'avant l'annuaire des étudiants Isika");
+		primaryStage.setTitle("DÉVELOPPEURS D'AVANT - l'annuaire des étudiants Isika");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
 
 	public Annuaire getAnnuaire() {
 		return annuaire;
+	}
+	
+	public void editerStagiaire(Stagiaire stagiaire) {
+		annuaire.modifierStagiaire(stagiaire);
+	}
+	
+	private void afficherVueEditerStagiaire(Stagiaire stagiaire) {
+		editerStagiaire = new EditerStagiaire(this, stagiaire);
+		editerStagiaire.afficher();
+	}
+	
+	private void afficherVueAjoutStagiaire() {
+		vueAjoutStagiaire = new VueAjoutStagiaire(this);
+		vueAjoutStagiaire.afficher();
 	}
 }

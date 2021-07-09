@@ -70,16 +70,6 @@ public class Stagiaire implements Comparable<Stagiaire> {
 		this.annee = annee;
 	}
 
-
-
-	public void afficher(){
-		System.out.println("Nom : " + nom);
-		System.out.println("Pr�nom : " + prenom);
-		System.out.println("D�partement : " + departement);
-		System.out.println("Promotion : " + promo);
-		System.out.println("Ann�e: " + annee);
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
