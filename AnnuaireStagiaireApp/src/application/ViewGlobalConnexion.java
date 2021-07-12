@@ -30,7 +30,8 @@ public class ViewGlobalConnexion {
 		Text titre = new Text("Bienvenue sur Développeurs d'avant !");
 
 		Text titre2 = new Text("Connecte toi pour accéder à plus d'options");
-
+		
+		//Utilisé dans le fichier css pour identifier le noeud
 		titre.setId("titreText");
 		VBox titreBox = new VBox(10);
 		titreBox.getChildren().addAll(titre, titre2);
@@ -82,7 +83,6 @@ public class ViewGlobalConnexion {
 		grille.add(hbBtn, 0, 4);
 		grille.add(actionTexte, 0, 6);
 
-		//création de la fenêtre
 		Scene scene = new Scene(grille, 400, 400);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 

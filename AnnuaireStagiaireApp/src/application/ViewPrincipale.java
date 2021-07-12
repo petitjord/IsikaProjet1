@@ -3,9 +3,19 @@ package application;
 
 import static javafx.scene.paint.Color.FIREBRICK;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,9 +27,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
@@ -28,9 +39,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class ViewPrincipale {
 
 	private String fileName = "C:/gitHubRepo/Projet1_Github/IsikaProjet1/STAGIAIRES.DON";
+
 	private Annuaire annuaire;
 	private VueAjoutStagiaire vueAjoutStagiaire;
 	private EditerStagiaire editerStagiaire;
@@ -48,12 +61,9 @@ public class ViewPrincipale {
 
 	public void start(Stage primaryStage) {
 
-		vueAjoutStagiaire = new VueAjoutStagiaire(this);
-		editerStagiaire = new EditerStagiaire(this);
-		connexionStagiaire = new Connexion(this);
-
 		// Création d'un menu
 		MenuBar menuBarApp = new MenuBar();
+
 		// menus
 		Menu ouvrirMenu = new Menu("Ouvrir");
 		Menu ajouterMenu = new Menu("Ajouter");
@@ -74,16 +84,6 @@ public class ViewPrincipale {
 			}
 		});
 
-		MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
-		ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
-		ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent arg0) {
-				vueAjoutStagiaire.afficher();
-			}
-		});
-
 		MenuItem editerStagiaireMenuItem = new MenuItem("Editer un Stagiaire");
 		editerMenu.getItems().add(editerStagiaireMenuItem);
 		editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -94,10 +94,22 @@ public class ViewPrincipale {
 			}
 		});
 
+		// ajout de tous les menus
+		menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
+		
+		MenuItem ajouterStagiaireMenuItem = new MenuItem("Ajouter un Stagiaire");
+		ajouterMenu.getItems().add(ajouterStagiaireMenuItem);
+		ajouterStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				afficherVueAjoutStagiaire();
+			}
+
+		});
 
 		// ajout de tous les menus
 		menuBarApp.getMenus().addAll(ouvrirMenu, ajouterMenu, editerMenu, aideMenu);
-
 		BorderPane root = new BorderPane();
 		root.setTop(menuBarApp);
 
@@ -115,6 +127,7 @@ public class ViewPrincipale {
 			}
 		});
 
+		// Recherche Avancée
 		// colonne de gauche et de droite pour le menu globale
 		HBox itemGauche = new HBox();
 		itemGauche.getChildren().add(root);
@@ -180,6 +193,10 @@ public class ViewPrincipale {
 		gridPaneSearch.add(itemsChoiceBox, 0, 1);//bouton valider
 
 		// Création du tableaux 
+		gridPaneSearch.add(searchBar, 0, 0);
+		gridPaneSearch.add(itemsChoiceBox, 0, 1);
+
+		// Création du tableaux 
 		TableView<Stagiaire> tableauxList = new TableView();
 		Stagiaire stagi = tableauxList.getSelectionModel().getSelectedItem();
 		TableColumn<Stagiaire, String> NomCol = new TableColumn<>("Nom");
@@ -201,6 +218,18 @@ public class ViewPrincipale {
 		AnneeCol.setCellValueFactory(new PropertyValueFactory<Stagiaire, String>("annee"));
 
 		tableauxList.getColumns().addAll(NomCol, PrenomCol, DepartementCol, PromotionCol, AnneeCol);
+		tableauxList.setMaxWidth(660);
+		tableauxList.setMinWidth(660);
+
+		editerStagiaireMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent arg0) {
+				Stagiaire selectedLine = tableauxList.getSelectionModel().getSelectedItem();
+				afficherVueEditerStagiaire(selectedLine);
+			}
+		});
+
 		tableauxList.setMaxWidth(660);
 		tableauxList.setMinWidth(660);
 
@@ -229,11 +258,6 @@ public class ViewPrincipale {
 		Button editBtn = new Button("Editer");
 		HBox editBoxBtn = new HBox(5);
 		editBoxBtn.getChildren().add(editBtn);
-		Button saveBtn = new Button("Sauvegarder");
-		HBox saveBoxBtn = new HBox(5);
-		saveBoxBtn.getChildren().add(saveBtn);
-		saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
-
 		editBtn.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -244,6 +268,19 @@ public class ViewPrincipale {
 		});
 
 		//Button ajouterStagiaireBtn = new Button("Ajouter");
+		Button saveBtn = new Button("Sauvegarder");
+		HBox saveBoxBtn = new HBox(5);
+		saveBoxBtn.getChildren().add(saveBtn);
+		saveBoxBtn.setPadding(new Insets(0 ,0 ,0 ,370));
+		saveBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent e) {
+				AnnuaireFileWriter annuaireFileWriter = new AnnuaireFileWriter();
+				annuaireFileWriter.getListAnnuaireBinaire(listStagiaireDansArbreBinaire);
+			}
+		});
+
 		GridPane bottomBtns = new GridPane();
 		bottomBtns.add(printBoxBtn, 0, 0);
 		bottomBtns.add(deleteBoxBtn, 1, 0);
@@ -252,6 +289,7 @@ public class ViewPrincipale {
 		bottomBtns.setPadding(new Insets(10, 0, 0, 20));
 		bottomBtns.setVgap(5);
 		bottomBtns.setHgap(5);
+		bottomBtns.setStyle("-fx-background-color : BLACK");
 
 		VBox canvas = new VBox();
 		canvas.setSpacing(5); 
@@ -267,5 +305,24 @@ public class ViewPrincipale {
 
 	public Annuaire getAnnuaire() {
 		return annuaire;
+	}
+
+	public void editerStagiaire(Stagiaire stagiaire) {
+		annuaire.modifierStagiaire(stagiaire);
+	}
+
+	private void afficherVueEditerStagiaire(Stagiaire stagiaire) {
+		editerStagiaire = new EditerStagiaire(this, stagiaire);
+		editerStagiaire.afficher();
+	}
+
+	private void afficherVueAjoutStagiaire() {
+		vueAjoutStagiaire = new VueAjoutStagiaire(this);
+		vueAjoutStagiaire.afficher();
+	}
+
+	private void afficherVueConnexion() {
+		connexionStagiaire = new Connexion(this);
+		connexionStagiaire.afficher();
 	}
 }

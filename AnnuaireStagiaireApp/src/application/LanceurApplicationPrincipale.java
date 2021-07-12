@@ -13,7 +13,6 @@ public class LanceurApplicationPrincipale extends Application{
 	public void start(Stage arg0) throws Exception {
 		ViewGlobalConnexion connexion = new ViewGlobalConnexion();
 		connexion.start(arg0);
-		
 	}
 
 }

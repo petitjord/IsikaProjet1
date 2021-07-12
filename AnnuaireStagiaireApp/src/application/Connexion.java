@@ -31,6 +31,7 @@ public class Connexion {
 	}
 
 	//public void start(Stage primaryStage) {
+
 	private void init() {
 
 		//Remplir la grille
@@ -40,6 +41,7 @@ public class Connexion {
 
 		Label login = new Label("Login :");
 		TextField loginTextField = new TextField();
+
 
 		Label pswd = new Label("Mot de passe :");
 		PasswordField pswdPasswordField = new PasswordField();
@@ -60,7 +62,6 @@ public class Connexion {
 			public void handle(ActionEvent e) {
 				actionTexte.setFill(FIREBRICK);
 				actionTexte.setText("Vérification en cours");
-
 			}
 
 		});
@@ -84,6 +85,8 @@ public class Connexion {
 		Scene scene = new Scene(gridPane,400,400);
 		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 		primaryStage.setScene(scene);
+		primaryStage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 		primaryStage.setTitle("DÉVELOPPEURS D'AVANT -  Formulaire de connexion");
 		primaryStage.show();
 	}

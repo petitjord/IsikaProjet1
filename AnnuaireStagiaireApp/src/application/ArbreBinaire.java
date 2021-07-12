@@ -1,8 +1,5 @@
 package application;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Arbre binaire de Recherche
  * On utilise la g�n�recit� en passant le type des �l�ments en param�tres.

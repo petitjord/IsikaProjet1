@@ -63,10 +63,11 @@ public class Annuaire {
 	}
 
 	//création d'un nouveau stagiaire
+	// StringTokenizer qui permet de délimiter les attributs avec une *
 	Stagiaire fabriqueStagiaire(String chaine){
-		Stagiaire stag = null;
+		Stagiaire stag=null;
 		StringTokenizer st = new StringTokenizer(chaine, "*");
-		if(st.countTokens() == 5){
+		if(st.countTokens()==5){
 			String nom = st.nextToken();
 			String prenom = st.nextToken();
 			int departement = Integer.parseInt(st.nextToken());
@@ -77,6 +78,8 @@ public class Annuaire {
 		return stag;
 	}
 
+	// Méthode qui récupère toutes les promos pour les mettre
+	// dans la ChoiceBox EditerStagiaire
 	//récupération des promotions dans les choiceBox
 	public Set<String> getAllPromos() {
 		return listeStagiaires.stream()
@@ -84,7 +87,10 @@ public class Annuaire {
 				.sorted()
 				.collect(Collectors.toSet());
 	}
+
 	//récupération des années dans les choiceBox
+	// Méthode qui récupère toutes les années pour les mettre
+	// dans la ChoiceBox EditerStagiaire
 	public Set<Integer> getAllYears() {
 		return listeStagiaires.stream()
 				.map(stagiaire -> stagiaire.getAnnee())
@@ -105,11 +111,13 @@ public class Annuaire {
 	 * 
 	 * @return stagiaires
 	 */
+	
 	public List<Stagiaire> getListStagiaireDansArbreBinaire() {
 		List<Stagiaire> stagiaires = new ArrayList<>();
 		getElementsArbreBinaire(stagiaires, arbre.getRacine());
 		return stagiaires;
 	}
+	
 	/**
 	 * return le nombre d'elements dans l'arbre binaire
 	 * 
@@ -127,25 +135,37 @@ public class Annuaire {
 		elements.add(noeud.valeur);
 	}
 
-	private static void modifierEncodageDe(String fichier_src,String fichier_dest, String ancien_enc, String nouveau_enc) 
-			throws IOException {
-		
+	// ???	
+	private static void modifierEncodageDe(String fichier_src,String fichier_dest, String ancien_enc, String nouveau_enc) throws IOException {
 		FileInputStream src =  new FileInputStream(fichier_src);
 		BufferedReader r = new BufferedReader(new InputStreamReader(src, ancien_enc));
 
 		FileOutputStream dest = new FileOutputStream(fichier_dest);
 		Writer w = new BufferedWriter(new OutputStreamWriter(dest, nouveau_enc));
-
 		String donnee;
 		while ( (donnee = r.readLine()) != null) {
 
 			w.write(donnee);
 			w.flush();
+			
 		}
+		
+		w.close();
+		r.close();
+		System.exit(0);
+		while ( (donnee= r.readLine()) != null) {
+
+			w.write(donnee);
+			w.flush();
+
+		}
+
 		w.close();
 		r.close();
 		System.exit(0);
 	}
 
-
+	public void modifierStagiaire(Stagiaire stagiaire) {
+		// Algorithme de modification de stagiaire (soit dans l'arbre soit à coder complètement)
+	}
 }

@@ -29,8 +29,6 @@ public class MenuBarApp extends Parent {
 		Menu editerMenu = new Menu("Éditer");
 		Menu aideMenu = new Menu("Aide");
 
-		//MenuItems pour le menu Fichier
-		//MenuItem download
 		MenuItem downloadItem = new MenuItem("Télécharger la documentation");
 
 		//Button pour connexion 
