@@ -14,7 +14,6 @@ public class LanceurApplicationPrincipale extends Application{
 		ViewGlobalConnexion connexion = new ViewGlobalConnexion();
 		connexion.start(arg0);
 		
-		
 	}
 
 }

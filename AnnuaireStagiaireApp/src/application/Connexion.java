@@ -22,34 +22,29 @@ import javafx.stage.Stage;
 
 public class Connexion {
 
-
 	GridPane gridPane = new GridPane();
 	private ViewPrincipale viewPrincipale;
-
 
 	public Connexion(ViewPrincipale viewPrincipale) {
 		this.viewPrincipale = viewPrincipale;
 		init();
 	}
 
-	
 	//public void start(Stage primaryStage) {
 	private void init() {
 
-
 		//Remplir la grille
 		Text titre = new Text("Connecte toi pour accéder à plus d'options");
-		//titre.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
 		titre.setId("titreText");
 
-		Label login = new Label("Login:");
+		Label login = new Label("Login :");
 		TextField loginTextField = new TextField();
 
 		Label pswd = new Label("Mot de passe :");
 		PasswordField pswdPasswordField = new PasswordField();
 
-		//Ajout du bouton � la grille
+		//Ajout du bouton la grille
 		Button btn = new Button("Connexion");
 		HBox hbBtn = new HBox(10);
 		hbBtn.setAlignment(Pos.BOTTOM_CENTER);
@@ -62,19 +57,13 @@ public class Connexion {
 		//Action Bouton
 		btn.setOnAction(new EventHandler<ActionEvent>() {
 
-		public void handle(ActionEvent e) {
+			public void handle(ActionEvent e) {
 				actionTexte.setFill(FIREBRICK);
 				actionTexte.setText("Vérification en cours");
-				
-		
+
 			}
 
 		});
-
-
-
-
-
 
 		gridPane.setAlignment(Pos.CENTER);
 		gridPane.setHgap(10);
@@ -88,14 +77,14 @@ public class Connexion {
 		gridPane.add(hbBtn, 1, 4);
 		gridPane.add(actionTexte, 1, 6);
 
-
 	}
 
 	public void afficher() {
 		Stage primaryStage = new Stage();
-		Scene scene = new Scene(gridPane,500,500);
+		Scene scene = new Scene(gridPane,400,400);
+		scene.getStylesheets().add(getClass().getResource("applicationApp.css").toExternalForm());
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Dev' d'Avant -  Connexion");
+		primaryStage.setTitle("DÉVELOPPEURS D'AVANT -  Formulaire de connexion");
 		primaryStage.show();
 	}
 
